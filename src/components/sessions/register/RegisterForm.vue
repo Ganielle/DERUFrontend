@@ -5,13 +5,13 @@
         <h1>REGISTER YOUR ACCOUNT</h1>
         <h4>Fill up the form to proceed to the next step</h4>
         <br>
-            <form>
+            <form v-on:submit.prevent="onSubmit">
                     <!-- username input -->
                     <MDBInput
                     type="text"
                     label="username"
                     id="username"
-                    v-model="form3Email"
+                    v-model="username"
                     class="form-input"
                     wrapperClass="mb-4"
                     required
@@ -22,7 +22,7 @@
                     type="password"
                     label="password"
                     id="password"
-                    v-model="form3Email"
+                    v-model="password"
                     class="form-input"
                     wrapperClass="mb-4"
                     required
@@ -34,7 +34,7 @@
                             type="text"
                             label="First Name"
                             id="fname"
-                            v-model="form3Email"
+                            v-model="fname"
                             class="form-input"
                             wrapperClass="mb-4"
                             required
@@ -46,7 +46,7 @@
                             type="text"
                             label="Middle Name(Optional)"
                             id="mname"
-                            v-model="form3Email"
+                            v-model="mname"
                             class="form-input"
                             wrapperClass="mb-4"
                             />
@@ -57,7 +57,7 @@
                             type="text"
                             label="Last Name"
                             id="lname"
-                            v-model="form3Email"
+                            v-model="lname"
                             class="form-input"
                             wrapperClass="mb-4"
                             required
@@ -67,14 +67,15 @@
                     type="email"
                     label="email"
                     id="email"
-                    v-model="form3Email"
+                    v-model="email"
                     class="form-input"
                     wrapperClass="mb-4"
                     formText="We'll never share your data with anyone else."
                     required
                     />
                     
-                    <MDBBtn color="primary" class="mb-4 next-step"> NEXT STEP </MDBBtn>
+                    <MDBBtn color="primary" class="mb-4 next-step"
+                    @click="AddStep(1)" type="submit"> NEXT STEP </MDBBtn>
                 </form>
         </div>
     </div>
@@ -82,13 +83,36 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
 import {MDBBtn, MDBInput} from "mdb-vue-ui-kit"
 
 export default{
     name: 'RegisterForm',
+    data() {
+        return{
+            username: "",
+            password: "",
+            fname: "",
+            mname: "",
+            lname: "",
+            email: ""
+        }
+    },
     components: {
         MDBBtn,
         MDBInput
+    },
+    computed: {
+        ...mapState(["stepIndex"])
+    },
+    methods: {
+        ...mapMutations(["addSignupStep"]),
+        AddStep(value){
+            if (this.username !== "" && this.password !=="" &&
+                this.fname !== "" && this.lname !== "" && this.email !== ""){
+                this.addSignupStep(value)
+            }
+        }
     }
 }
 </script>
@@ -101,7 +125,7 @@ export default{
     /* padding-right: 50vh; */
 }
 .form-input{
-    color:aliceblue;
+    color: #000000;
 }
 .next-step{
     margin-top: 50px;

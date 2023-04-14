@@ -5,25 +5,33 @@
             <MDBContainer>
                 <MDBRow class="align-items-start bg-light mb-3">
                     <MDBCol>
-                        <div class="rounded-step">
+                        <div class="rounded-step" v-bind:style="[stepIndex == 0 ? {
+                            'background': '#000000'
+                        } : {'background': '#434350'}]">
                             <p class="step-item">1</p>
                         </div>
                         <p>REGISTER YOUR ACCOUNT</p>
                     </MDBCol>
                     <MDBCol>
-                        <div class="rounded-step">
+                        <div class="rounded-step" v-bind:style="[stepIndex == 1 ? {
+                            'background': '#000000'
+                        } : {'background': '#434350'}]">
                             <p class="step-item">2</p>
                         </div>
                         <p>REGISTER HOSPITAL</p>
                     </MDBCol>
                     <MDBCol>
-                        <div class="rounded-step">
+                        <div class="rounded-step" v-bind:style="[stepIndex == 2 ? {
+                            'background': '#000000'
+                        } : {'background': '#434350'}]">
                             <p class="step-item">3</p>
                         </div>
                         <p>TERMS AND CONDITIONS</p>
                     </MDBCol>
                     <MDBCol>
-                        <div class="rounded-step">
+                        <div class="rounded-step" v-bind:style="[stepIndex == 3 ? {
+                            'background': '#000000'
+                        } : {'background': '#434350'}]">
                             <p class="step-item">4</p>
                         </div>
                         <p>WELCOME</p>
@@ -36,9 +44,20 @@
                 <MDBRow class="align-items-start bg-light mb-3">
                     <MDBCol>
                         <div class="rounded-step">
-                            <p class="step-item">1</p>
+                            <p class="step-item">{{ stepIndex + 1 }}</p>
                         </div>
-                        <p>REGISTER YOUR ACCOUNT</p>
+                        <div v-if="stepIndex == 0">
+                            <p>REGISTER YOUR ACCOUNT</p>
+                        </div>
+                        <div v-else-if="stepIndex == 1">
+                            <p>REGISTER HOSPITAL</p>
+                        </div>
+                        <div v-else-if="stepIndex == 2">
+                            <p>TERMS AND CONDITION</p>
+                        </div>
+                        <div v-else>
+                            <p>WELCOME</p>
+                        </div>
                     </MDBCol>
                 </MDBRow>
             </MDBContainer>
@@ -48,6 +67,7 @@
 
 <script>
 import { MDBRow, MDBContainer, MDBCol } from 'mdb-vue-ui-kit';
+import { mapState } from 'vuex'
 
 export default{
     name: 'RegisterSteps',
@@ -55,6 +75,9 @@ export default{
         MDBRow,
         MDBContainer,
         MDBCol
+    },
+    computed: {
+        ...mapState(["stepIndex"])
     }
 }
 </script>
@@ -70,7 +93,7 @@ export default{
     padding-bottom: 20px;
 }
 .rounded-step{
-    border-radius: 50%;;
+    border-radius: 50%;
     background: #434350;
     height: 50px;
     width: 50px;
