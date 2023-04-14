@@ -22,7 +22,9 @@
 
         <MDBBtn color="primary" block class="mb-4"> Login </MDBBtn>
         <!-- Submit button -->
-        <MDBBtn color="primary" block class="mb-4"> Sign up </MDBBtn>
+        <router-link to="/register">
+            <MDBBtn color="primary" block class="mb-4"> Sign up </MDBBtn>
+        </router-link>
   </form>
     </div>
     
