@@ -79,7 +79,6 @@
                 </form>
         </div>
     </div>
-    
 </template>
 
 <script>
@@ -103,16 +102,33 @@ export default{
         MDBInput
     },
     computed: {
-        ...mapState(["stepIndex"])
+        ...mapState(["stepIndex", "registerAccount"])
     },
     methods: {
-        ...mapMutations(["addSignupStep"]),
+        ...mapMutations(["addSignupStep", "addRegisterAccount"]),
+        CheckValues(){
+            if (this.registerAccount.length <= 0){
+                return;
+            }
+
+            this.username = this.registerAccount[0] !== "" ? this.registerAccount[0] : ""
+            this.password = this.registerAccount[1] !== "" ? this.registerAccount[1] : ""
+            this.fname = this.registerAccount[2] !== "" ? this.registerAccount[2] : ""
+            this.mname = this.registerAccount[3] !== "" ? this.registerAccount[3] : ""
+            this.lname = this.registerAccount[4] !== "" ? this.registerAccount[4] : ""
+            this.email = this.registerAccount[5] !== "" ? this.registerAccount[5] : ""
+        },
         AddStep(value){
             if (this.username !== "" && this.password !=="" &&
                 this.fname !== "" && this.lname !== "" && this.email !== ""){
+                this.addRegisterAccount([this.username, this.password, this.fname, this.mname, 
+                    this.lname, this.email])
                 this.addSignupStep(value)
             }
         }
+    },
+    created: function() {
+        this.CheckValues()
     }
 }
 </script>
