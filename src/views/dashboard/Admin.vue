@@ -1,5 +1,5 @@
 <template>
-    <MDBContainer fluid class="px-0">
+    <MDBContainer fluid class="px-0 admin-view">
         <div v-if="innerWidth < 768" :style="{margin: '3vw'}">
             <MDBIcon
                 fas
@@ -21,6 +21,12 @@
                 <div v-if="currentSideBar === 'dashboard'">
                     <AdminDashboardMenu />
                 </div>
+                <div v-else-if="currentSideBar === 'hospitalmanage'">
+                    <ManageHospital />
+                </div>
+                <div v-else-if="currentSideBar === 'variant'">
+                    <HospitalVariant />
+                </div>
             </MDBContainer>
         </main>
     </MDBContainer>
@@ -31,6 +37,8 @@ import { mapState } from 'vuex';
 import { MDBContainer, MDBIcon } from 'mdb-vue-ui-kit';
 import AdminNavigation from '@/components/dashboard/admin/AdminNavigation.vue';
 import AdminDashboardMenu from '@/components/dashboard/admin/AdminMenuDashboard.vue'
+import ManageHospital from '@/components/dashboard/admin/AdminManageHospital.vue';
+import HospitalVariant from '@/components/dashboard/admin/AdminHospitalVariant.vue';
 export default{
     name: 'AdminDashboard',
     data() {
@@ -44,6 +52,8 @@ export default{
     components: {
         AdminNavigation,
         AdminDashboardMenu,
+        ManageHospital,
+        HospitalVariant,
         MDBContainer,
         MDBIcon
     },
@@ -66,5 +76,9 @@ export default{
 </script>
 
 <style>
-
+.admin-view{
+    background-color: rgb(168, 173, 173);
+    width: 100%;
+    height: 100vh;
+}
 </style>

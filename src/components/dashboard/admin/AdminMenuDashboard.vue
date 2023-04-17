@@ -29,13 +29,7 @@ export default{
 </script>
 
 <style>
-.su-first-row {
-}
-
 .su-second-row {
   background-color: #232931;
-}
-
-.su-third-row {
 }
 </style>
