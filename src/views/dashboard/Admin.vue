@@ -27,6 +27,21 @@
                 <div v-else-if="currentSideBar === 'variant'">
                     <HospitalVariant />
                 </div>
+                <div v-else-if="currentSideBar === 'manageprovider'">
+                    <ManageHCAccount />
+                </div>
+                <div v-else-if="currentSideBar === 'rescue'">
+                    <RescueList />
+                </div>
+                <div v-else-if="currentSideBar === 'provider'">
+                    <HealthCareList />
+                </div>
+                <div v-else-if="currentSideBar === 'rural'">
+                    <RuralList />
+                </div>
+                <div v-else-if="currentSideBar === 'create'">
+                    <CreateUsers />
+                </div>
             </MDBContainer>
         </main>
     </MDBContainer>
@@ -39,6 +54,11 @@ import AdminNavigation from '@/components/dashboard/admin/AdminNavigation.vue';
 import AdminDashboardMenu from '@/components/dashboard/admin/AdminMenuDashboard.vue'
 import ManageHospital from '@/components/dashboard/admin/AdminManageHospital.vue';
 import HospitalVariant from '@/components/dashboard/admin/AdminHospitalVariant.vue';
+import ManageHCAccount from '@/components/dashboard/admin/AdminManageHCAccount.vue';
+import RescueList from '@/components/dashboard/admin/AdminRescueList.vue';
+import HealthCareList from '@/components/dashboard/admin/AdminHealthCareList.vue';
+import RuralList from '@/components/dashboard/admin/AdminRuralList.vue';
+import CreateUsers from '@/components/dashboard/admin/AdminCreateUser.vue';
 export default{
     name: 'AdminDashboard',
     data() {
@@ -54,6 +74,11 @@ export default{
         AdminDashboardMenu,
         ManageHospital,
         HospitalVariant,
+        ManageHCAccount,
+        RescueList,
+        HealthCareList,
+        RuralList,
+        CreateUsers,
         MDBContainer,
         MDBIcon
     },
@@ -80,5 +105,23 @@ export default{
     background-color: rgb(168, 173, 173);
     width: 100%;
     height: 100vh;
+}
+.list-title-bg {
+  background-color: rgb(2, 107, 206);
+  font-weight: bold;
+  color: rgb(209, 209, 209);
+  font-size: 2rem;
+}
+.list-title{
+    margin-left: 2vw;
+}
+.tc-pager,
+.tc-page {
+  background-color: #3d4e65;
+  color: #f9b948;
+  padding: 0.25rem 0.8rem;
+  margin: 0 0.5rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
 }
 </style>
