@@ -50,7 +50,4 @@ export default{
 </script>
 
 <style>
-.list-table{
-    margin-top: 3vh;
-}
 </style>

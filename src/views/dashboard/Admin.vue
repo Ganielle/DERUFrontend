@@ -124,4 +124,7 @@ export default{
   font-weight: bold;
   border-radius: 0.5rem;
 }
+.list-table{
+    margin-top: 3vh;
+}
 </style>
