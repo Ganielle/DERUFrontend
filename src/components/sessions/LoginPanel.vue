@@ -31,7 +31,7 @@
                 </MDBCol>
                 <MDBCol>
                     <MDBBtn color="primary" block class="mb-4" type="submit" 
-                    @click="Login()"> 
+                    @click="LoginProcess()"> 
                         <div v-if="!processing">
                             Login
                         </div>
@@ -51,13 +51,16 @@
 <script>
 import { mapMutations } from "vuex";
 import {MDBBtn, MDBInput, MDBContainer, MDBRow, MDBCol, MDBSpinner} from "mdb-vue-ui-kit"
+import { Login } from "../../modules/login";
+import {useToast} from 'vue-toast-notification';
 export default{
     name: 'LoginPanel',
     data() {
         return{
             username: "",
             password: "",
-            processing: false
+            processing: false,
+            toast: useToast(),
         }
     },
     components: {
@@ -70,15 +73,48 @@ export default{
     },
     methods: {
         ...mapMutations(["restartDashboardLink"]),
-        Login(){
+        async LoginProcess(){
             if (this.username === "" && this.password === ""){
                 return;
             }
             
             this.processing = true
-            this.restartDashboardLink("dashboard")
+            this.fields.username = this.username
+            this.fields.password = this.password
+
             //  BACKEND PROCESS HERE
+            await this.Validate()
+            // console.log(this.response.data)
+            if (this.response.type === "success"){
+                
+                this.toast.open({
+                    message: this.response.message,
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.restartDashboardLink("dashboard")
+                if (this.response.role === process.env.VUE_APP_ADMINISTRATOR_ID){
+                    this.$router.push({name: "adminDashboard"})
+                }
+            }
+            else{
+                this.toast.open({
+                    message: this.response.message,
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.processing = false
+            }
         }
+    },
+    setup () {
+        const { fields, response, Validate } = Login()
+
+        return { fields, response, Validate}
     }
 }
 </script>

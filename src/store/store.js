@@ -7,6 +7,7 @@ export const store = createStore({
             stepIndex: 0,
             registerAccount: [],
             registerHospital: [],
+            selectedVariants:[],
             currentSideBar: "",
             currentSubNav: ""
         }
@@ -16,6 +17,7 @@ export const store = createStore({
             state.stepIndex = payload
             state.registerAccount = []
             state.registerHospital = []
+            state.selectedVariants = []
         },
         addSignupStep(state, payload){
             state.stepIndex += payload
@@ -28,6 +30,9 @@ export const store = createStore({
         },
         addRegisterHospital(state, payload){
             state.registerHospital = payload
+        },
+        addSelectedVariants(state, payload){
+            state.selectedVariants = payload
         },
         restartDashboardLink(state, payload){
             state.currentSideBar = payload

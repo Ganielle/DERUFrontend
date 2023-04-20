@@ -111,6 +111,7 @@ import { mapMutations, mapState } from 'vuex';
 import { MDBCheckbox, MDBBtn, MDBContainer, MDBRow, MDBCol,
     MDBSpinner } from 'mdb-vue-ui-kit';
 import {useToast} from 'vue-toast-notification';
+import { Signup } from '../../../modules/signup'
 
 export default{
     name: 'TermsCondition',
@@ -130,7 +131,8 @@ export default{
         MDBSpinner
     },
     computed: {
-        ...mapState(["stepIndex", "termsCondition"])
+        ...mapState(["stepIndex", "registerAccount", "registerHospital", "selectedVariants",
+             "termsCondition"])
     },
     methods: {
         ...mapMutations(["addSignupStep", "reduceSignupStep", "addTermsCondition"]),
@@ -140,7 +142,7 @@ export default{
             }
             this.reduceSignupStep(1)
         },
-        finishSignup(value){
+        async finishSignup(value){
             if (!this.accepted){
                 this.toast.open({
                     message: "Please accept the terms and condition first!",
@@ -153,8 +155,53 @@ export default{
             }
             // ADD BACKEND HERE
             this.processing = true;
-            this.addSignupStep(value)
+
+            this.fields.roleId = process.env.VUE_APP_HEALTHCARE_STAFF
+            this.fields.username = this.registerAccount[0]
+            this.fields.password = this.registerAccount[1]
+            this.fields.fname = this.registerAccount[2]
+            this.fields.mname = this.registerAccount[3]
+            this.fields.lname = this.registerAccount[4]
+            this.fields.email = this.registerAccount[5]
+
+            this.fields.display_name = this.registerHospital[0]
+
+            this.fields.landline = this.registerHospital[1]
+            this.fields.cellphone = this.registerHospital[2]
+            this.fields.address = this.registerHospital[3]
+            this.fields.regularBeds = this.registerHospital[4]
+            this.fields.covidBeds = this.registerHospital[5]
+
+            this.fields.variance = this.selectedVariants
+
+            await this.SaveData();
+            console.log(this.status.type)
+            if (this.status.type === "success"){
+                this.toast.open({
+                    message: this.status.message,
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.addSignupStep(value)
+            }
+            else{
+                this.toast.open({
+                    message: this.status.message,
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.processing = false;
+            }
         }
+    },
+    setup() {
+        const { fields, status, SaveData} = Signup()
+
+        return { fields, status, SaveData }
     }
 }
 </script>

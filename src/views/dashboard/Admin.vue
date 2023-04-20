@@ -42,6 +42,12 @@
                 <div v-else-if="currentSideBar === 'create'">
                     <CreateUsers />
                 </div>
+                <div v-else-if="currentSideBar === 'referralmanage'">
+                    <ReferralManage />
+                </div>
+                <div v-else-if="currentSideBar === 'pcr'">
+                    <PCRReport />
+                </div>
             </MDBContainer>
         </main>
     </MDBContainer>
@@ -59,6 +65,8 @@ import RescueList from '@/components/dashboard/admin/AdminRescueList.vue';
 import HealthCareList from '@/components/dashboard/admin/AdminHealthCareList.vue';
 import RuralList from '@/components/dashboard/admin/AdminRuralList.vue';
 import CreateUsers from '@/components/dashboard/admin/AdminCreateUser.vue';
+import ReferralManage from '@/components/dashboard/admin/AdminReferralManage.vue'
+import PCRReport from '@/components/dashboard/admin/AdminPCRList.vue'
 export default{
     name: 'AdminDashboard',
     data() {
@@ -79,6 +87,8 @@ export default{
         HealthCareList,
         RuralList,
         CreateUsers,
+        ReferralManage,
+        PCRReport,
         MDBContainer,
         MDBIcon
     },

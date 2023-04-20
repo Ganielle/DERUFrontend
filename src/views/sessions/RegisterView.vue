@@ -40,7 +40,9 @@ export default{
     background-color: aqua;
     margin: 0;
 }
-
+.no-center-text{
+    text-align: left !important;
+}
 .center{
     padding-top: 5vh;
     padding-left: 5vh;

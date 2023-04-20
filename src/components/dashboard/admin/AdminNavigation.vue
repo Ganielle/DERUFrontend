@@ -85,7 +85,11 @@
                 </div>
             </div>
         <!--NAV ITEM-->
-        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer">
+        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
+        :class="{'sidebar-active-link': currentSideBar == 'referralmanage'}" 
+        @click="() => {
+          setSidebarLink('referralmanage')
+        }">
             <div class="sidebar-icon-container">
                 <MDBIcon fas icon="chart-bar" size="xl" title="REFERRAL" />
               </div>
@@ -94,12 +98,16 @@
             </div>
         </div>
         <!--NAV ITEM-->
-        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer">
+        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
+        :class="{'sidebar-active-link': currentSideBar == 'pcr'}" 
+        @click="() => {
+          setSidebarLink('pcr')
+        }">
             <div class="sidebar-icon-container">
                 <MDBIcon fas icon="clipboard-list" size="xl" title="PRC" />
               </div>
             <div class="flex-grow-1 sidebar-link-header-title">
-                PRC REPORT MANAGEMENT
+                PCR REPORT MANAGEMENT
             </div>
         </div>
         <!--NAV ITEM-->
