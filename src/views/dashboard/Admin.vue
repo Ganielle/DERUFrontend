@@ -105,7 +105,16 @@ export default{
             if (this.subToggle === true){
                 this.didToggle = false
             }
+        },
+        CheckToken(){
+        const auth = JSON.parse(localStorage.getItem("userCreds"))
+        if (!auth){
+            this.$router.push({name: "home"})
         }
+      }
+    },
+    created: function() {
+      this.CheckToken()
     }
 }
 </script>

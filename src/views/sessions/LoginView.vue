@@ -13,6 +13,20 @@ export default {
     name: 'LoginView',
     components: {
         LoginPanel
+    },
+    methods: {
+      CheckToken(){
+        const auth = JSON.parse(localStorage.getItem("userCreds"))
+
+        if (auth){
+          if (auth.roleId._id === process.env.VUE_APP_ADMINISTRATOR_ID){
+            this.$router.push({name: "adminDashboard"})
+          }
+        }
+      }
+    },
+    created: function() {
+      this.CheckToken()
     }
 }
 </script>

@@ -4,22 +4,30 @@
         <span className="ms-3">{{title}}</span>
       </MDBContainer>
       <MDBContainer fluid className="px-0 py-1 text-center status-small-body">
-        {{ value }}
-      </MDBContainer>
+        <div v-if="process" class="text-center">
+          <MDBSpinner size="sm" /> 
+        </div>
+        <div v-else>
+          {{ value }}
+        </div>  
+        </MDBContainer>
+      
     </MDBCol>
 </template>
 
 <script>
-import { MDBContainer, MDBCol } from 'mdb-vue-ui-kit';
+import { MDBContainer, MDBCol, MDBSpinner } from 'mdb-vue-ui-kit';
 export default{
     name: 'StatusCards',
     props: {
+        process: Boolean,
         title: String,
         value: Number
     },
     components: {
         MDBContainer,
-        MDBCol
+        MDBCol,
+        MDBSpinner
     }
 }
 </script>

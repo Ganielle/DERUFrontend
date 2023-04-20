@@ -7,20 +7,20 @@
         <div class="p-5 text-center bg-light jumbotron rounded">
             <form v-on:submit.prevent="onSubmit">
                 <MDBInput
-                type="text"
-                label="Username"
-                id="username"
-                v-model="username"
-                wrapperClass="mb-4"
-                required
+                    type="text"
+                    label="Username"
+                    id="username"
+                    v-model="username"
+                    wrapperClass="mb-4"
+                    required
                 />
                 <MDBInput
-                type="password"
-                label="Password"
-                id="password"
-                v-model="password"
-                wrapperClass="mb-4"
-                required
+                    type="password"
+                    label="Password"
+                    id="password"
+                    v-model="password"
+                    wrapperClass="mb-4"
+                    required
                 />
 
                 <MDBRow>
@@ -36,32 +36,32 @@
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                        type="text"
-                        label="Middle Name"
-                        id="mname"
-                        v-model="mname"
-                        wrapperClass="mb-4"
-                        required
+                            type="text"
+                            label="Middle Name"
+                            id="mname"
+                            v-model="mname"
+                            wrapperClass="mb-4"
+                            required
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                        type="text"
-                        label="Last Name"
-                        id="lname"
-                        v-model="lname"
-                        wrapperClass="mb-4"
-                        required
+                            type="text"
+                            label="Last Name"
+                            id="lname"
+                            v-model="lname"
+                            wrapperClass="mb-4"
+                            required
                         />
                     </MDBCol>
                 </MDBRow>
                 <MDBInput
-                type="email"
-                label="Email"
-                id="email"
-                v-model="email"
-                wrapperClass="mb-4"
-                required
+                    type="email"
+                    label="Email"
+                    id="email"
+                    v-model="email"
+                    wrapperClass="mb-4"
+                    required
                 />
                 <div class="d-flex flex-wrap my-3">
                     <div class="flex-grow-1 mx-1 mb-3">

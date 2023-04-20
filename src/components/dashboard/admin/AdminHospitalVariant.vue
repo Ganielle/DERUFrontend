@@ -30,7 +30,17 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="2" class="text-center">No Data Yet!</td>
+                        <div v-if="processing.gettingPaginationData">
+                            <MDBSpinner size="sm" />
+                        </div>
+                        <div v-else>
+                            <div v-if="variants.varianceList.length <= 0">
+                                <td colspan="2" class="text-center">No Data Yet!</td>
+                            </div>
+                            <div v-else>
+                                
+                            </div>
+                        </div>
                     </tr>
                 </tbody>
             </MDBTable>
@@ -58,9 +68,11 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
 import { MDBContainer, MDBBtn, MDBIcon, MDBTable, MDBModal, MDBModalHeader, 
-    MDBModalBody, MDBModalFooter, MDBModalTitle, MDBInput } from 'mdb-vue-ui-kit';
+    MDBModalBody, MDBModalFooter, MDBModalTitle, MDBInput, MDBSpinner } from 'mdb-vue-ui-kit';
 import DashboardBreadcrumbs from '../DashboardBreadcrumbs.vue';
+import { Variance } from '../../../modules/hospitalVariants'
 export default{
     name: 'HospitalVariant',
     data() {
@@ -79,7 +91,17 @@ export default{
         MDBModalBody,
         MDBModalFooter,
         MDBModalTitle,
-        MDBInput
+        MDBInput,
+        MDBSpinner
+    },
+    setup() {
+        const { variants, pagination, processing, PaginationListVariance} = Variance()
+
+        onMounted(() => {
+            PaginationListVariance()
+        })
+
+        return { variants, pagination, processing, PaginationListVariance }
     }
 }
 </script>
