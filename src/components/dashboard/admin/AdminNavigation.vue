@@ -215,6 +215,7 @@
         <div
           title="Logout"
           class="pe-5 py-0 fs-6 shadow-0 text-warning fw-bold sidebar-logout-btn"
+          @click="logoutModal = true"
         >
           <MDBIcon fas icon="sign-out-alt" size="xl" class="mx-4" /> LOGOUT
         </div>
@@ -222,11 +223,31 @@
       <div v-if="innerWidth < 768" class="custom-backdrop" @click="SidebarToggle()">
       </div>
     </div>
+    
+    <MDBModal
+        v-model="logoutModal"
+        scrollable
+        centered
+    >
+        <MDBModalHeader>
+            <MDBModalTitle id="exampleModalScrollableTitle"> LOGOUT </MDBModalTitle>
+        </MDBModalHeader>
+        <MDBModalBody class="text-center"> 
+            Are you sure you want to logout?
+        </MDBModalBody>
+        <MDBModalFooter>
+            <MDBBtn color="secondary" @click="logoutModal = false" > Cancel </MDBBtn>
+            <MDBBtn color="primary" type="submit" 
+                @click="Logout()"> Yes </MDBBtn>
+        </MDBModalFooter>
+    </MDBModal>
 </template>
 
 <script>
 import { mapMutations, mapState } from 'vuex';
-import { MDBIcon } from 'mdb-vue-ui-kit';
+import { MDBBtn, MDBIcon, MDBModal, MDBModalHeader, 
+    MDBModalBody, MDBModalFooter, MDBModalTitle } from 'mdb-vue-ui-kit';
+import {useToast} from 'vue-toast-notification';
 export default{
     name: 'AdminNavigation',
     props:{
@@ -235,11 +256,19 @@ export default{
     },
     data() {
         return {
-            innerWidth: window.innerWidth
+            innerWidth: window.innerWidth,
+            logoutModal: false,
+            toast: useToast(),
         }
     },
     components: {
-        MDBIcon
+      MDBBtn,
+      MDBIcon,
+      MDBModal,
+      MDBModalHeader,
+      MDBModalBody,
+      MDBModalFooter,
+      MDBModalTitle,
     },
     computed: {
         ...mapState(["currentSideBar", "currentSubNav"]),
@@ -256,6 +285,17 @@ export default{
         },
         SubItemToggle(){
           this.$emit('sideSubToggle')
+        },
+        Logout(){
+          localStorage.removeItem("userCreds")
+          this.toast.open({
+              message: "Successfully Logout",
+              type: 'success',
+              position: 'top',
+              duration: 3000,
+              dismissible: true
+          })
+          this.$router.push({name: "home"})
         }
     }
 }

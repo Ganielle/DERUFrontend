@@ -3,9 +3,15 @@
 </template>
 
 <style lang="scss">
-html, body{
-  margin:0;
-  padding:0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 #app {
   font-family: Roboto, Helvetica, Arial, sans-serif;

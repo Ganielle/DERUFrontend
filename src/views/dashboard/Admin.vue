@@ -17,7 +17,7 @@
             '0rem' : '4.5rem' : '20rem' : '0rem'}">
             <AdminNavigation :didToggle="didToggle" :subToggle="subToggle" @sidebarToggle="ToggleSidebar" 
                 @sideSubToggle="SideSubToggle"/>
-            <MDBContainer fluid class="px-0">
+            <MDBContainer fluid class="px-0 py-5 fill-space">
                 <div v-if="currentSideBar === 'dashboard'">
                     <AdminDashboardMenu />
                 </div>
@@ -74,7 +74,7 @@ export default{
             currentLink: this.currentSideBar,
             innerWidth: window.innerWidth,
             didToggle: true,
-            subToggle: false
+            subToggle: false,
         }
     },
     components: {
@@ -123,7 +123,7 @@ export default{
 .admin-view{
     background-color: rgb(168, 173, 173);
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 }
 .list-title-bg {
   background-color: rgb(2, 107, 206);

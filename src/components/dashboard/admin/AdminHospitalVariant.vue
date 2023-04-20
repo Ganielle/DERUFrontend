@@ -12,38 +12,60 @@
         </div>
 
         <MDBContainer class="px-0 mb-3 d-flex align-items-center justify-content-center">
-            <button class="tc-pager" role="button">
+            <button class="tc-pager" role="button" :disabled="pagination.currentPage <= 0"
+                @click="() => { 
+                    pagination.currentPage -= 1
+                    PaginationListVariance()
+                }">
                 <MDBIcon fas icon="angle-double-left" />
             </button>
-            <div class="tc-page">1</div>
-            <button class="tc-pager" role="button">
+            <div class="tc-page">{{ pagination.currentPage + 1 }}</div>
+            <button class="tc-pager" role="button" :disabled="CheckNextBtn" 
+                @click="() => {
+                    pagination.currentPage += 1
+                    PaginationListVariance()
+                }">
                 <MDBIcon fas icon="angle-double-right" />
             </button>
         </MDBContainer>
 
-        <MDBTable responsive class="align-middle mb-0 bg-white text-center">
-                <thead class="bg-dark">
-                    <tr>
-                        <th scope="col" class="table-dark">VARIANT NAME</th>
-                        <th scope="col" class="table-dark">ACTION</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <div v-if="processing.gettingPaginationData">
-                            <MDBSpinner size="sm" />
-                        </div>
-                        <div v-else>
-                            <div v-if="variants.varianceList.length <= 0">
-                                <td colspan="2" class="text-center">No Data Yet!</td>
-                            </div>
-                            <div v-else>
-                                
-                            </div>
-                        </div>
-                    </tr>
-                </tbody>
-            </MDBTable>
+        <MDBTable hover responsive class="align-middle mb-0 bg-white text-center">
+            <thead class="bg-dark">
+                <tr>
+                    <th scope="col" class="table-dark">VARIANT NAME</th>
+                    <th scope="col" class="table-dark">ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-if="processing.gettingPaginationData">
+                    <td colspan="2" class="text-center">
+                        <MDBSpinner />
+                    </td>
+                </tr>
+                <tr v-else-if="variants.varianceList.length <= 0">
+                    <td colspan="2" class="text-center">No Data Yet!</td>
+                </tr>
+                <tr v-else v-for="dataValues in variants.varianceList" :key="dataValues">
+                    <th scope="row" class="text-center">
+                        <strong>{{ dataValues.display_name }}</strong>
+                    </th>
+                    <td class="text-center">
+                        <MDBRow>
+                            <MDBCol class="py-1">
+                                <MDBBtn size="sm" class="action-btn" color="success"
+                                @click="() => {
+                                    editVariant.id = dataValues._id
+                                    openEdit = true
+                                }"> Edit </MDBBtn>
+                            </MDBCol>
+                            <MDBCol class="py-1 ">
+                                <MDBBtn size="sm" class="action-btn" color="danger"> Delete </MDBBtn>
+                            </MDBCol>
+                        </MDBRow>
+                    </td>
+                </tr>
+            </tbody>
+        </MDBTable>
     </MDBContainer>
 
     <MDBModal
@@ -54,14 +76,47 @@
         <MDBModalHeader>
             <MDBModalTitle id="exampleModalScrollableTitle"> ADD HOSPITAL VARIANT </MDBModalTitle>
         </MDBModalHeader>
-        <form>
+        <form  v-on:submit.prevent="onSubmit">
             <MDBModalBody> 
-                <MDBInput type="text" required label="Hospital Variant" 
+                <MDBInput type="text" required label="Hospital Variant" v-model="saveVariant.display_name"
                 formText="This data will be used in signup form for our Health Care Service Users" />
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="secondary" @click="openModal = false"> Close </MDBBtn>
-                <MDBBtn color="primary" type="submit"> Save changes </MDBBtn>
+                <div v-if="processing.saveData">
+                    <MDBSpinner />
+                </div>
+                <div v-else>
+                    <MDBBtn color="primary" type="submit" 
+                        @click="SaveEntry"> Save changes </MDBBtn>
+                </div>
+            </MDBModalFooter>
+        </form>
+    </MDBModal>
+
+    <MDBModal
+        v-model="openEdit"
+        scrollable
+        centered
+    >
+        <MDBModalHeader>
+            <MDBModalTitle id="exampleModalScrollableTitle"> EDIT HOSPITAL VARIANT </MDBModalTitle>
+        </MDBModalHeader>
+        <form  v-on:submit.prevent="onSubmit">
+            <MDBModalBody> 
+                <MDBInput type="text" required label="Hospital Variant" 
+                formText="This data will be used in signup form for our Health Care Service Users" 
+                v-model="editVariant.editName" />
+            </MDBModalBody>
+            <MDBModalFooter>
+                <MDBBtn color="secondary" @click="openEdit = false"> Close </MDBBtn>
+                <div v-if="processing.updatingData">
+                    <MDBSpinner />
+                </div>
+                <div v-else>
+                    <MDBBtn color="primary" type="submit" 
+                    @click="UpdateVariantEntry"> Save changes </MDBBtn>
+                </div>
             </MDBModalFooter>
         </form>
     </MDBModal>
@@ -70,14 +125,18 @@
 <script>
 import { onMounted } from 'vue';
 import { MDBContainer, MDBBtn, MDBIcon, MDBTable, MDBModal, MDBModalHeader, 
-    MDBModalBody, MDBModalFooter, MDBModalTitle, MDBInput, MDBSpinner } from 'mdb-vue-ui-kit';
+    MDBModalBody, MDBModalFooter, MDBModalTitle, MDBInput, MDBSpinner,
+    MDBRow, MDBCol } from 'mdb-vue-ui-kit';
 import DashboardBreadcrumbs from '../DashboardBreadcrumbs.vue';
 import { Variance } from '../../../modules/hospitalVariants'
+import {useToast} from 'vue-toast-notification';
 export default{
     name: 'HospitalVariant',
     data() {
         return {
-            openModal: false
+            openModal: false,
+            openEdit: false,
+            toast: useToast(),
         }
     },
     components:{
@@ -92,16 +151,93 @@ export default{
         MDBModalFooter,
         MDBModalTitle,
         MDBInput,
-        MDBSpinner
+        MDBSpinner,
+        MDBCol,
+        MDBRow
+    },
+    methods: {
+        async UpdateVariantEntry(){
+            await this.UpdateVariant()
+            if (this.response.editResponse === "success"){
+                this.toast.open({
+                    message: "Edit Successful",
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.pagination.currentPage = 0
+                this.PaginationListVariance()
+                this.openEdit = false
+            }
+            else if (this.response.editResponse === "bad-request"){
+                this.toast.open({
+                    message: "Duplicate entry, please use something else!",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+            else{
+                this.toast.open({
+                    message: "There's a problem with your network! Please try again",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+        },
+        async SaveEntry(){
+            await this.AddVariant()
+            if (this.response.saveResponse === "success"){
+                this.toast.open({
+                    message: "Edit Successful",
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.pagination.currentPage = 0
+                this.PaginationListVariance()
+                this.openModal = false
+            }
+            else if (this.response.saveResponse === "bad-request"){
+                this.toast.open({
+                    message: "Duplicate entry, please use something else!",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+            else{
+                this.toast.open({
+                    message: "There's a problem with your network! Please try again",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+        }
+    },
+    computed: {
+        CheckNextBtn(){
+            return this.pagination.currentPage >= this.pagination.totalPages - 1
+        }
     },
     setup() {
-        const { variants, pagination, processing, PaginationListVariance} = Variance()
+        const { variants, pagination, processing, editVariant,
+            response, saveVariant, UpdateVariant, PaginationListVariance, AddVariant} = Variance()
 
         onMounted(() => {
             PaginationListVariance()
         })
 
-        return { variants, pagination, processing, PaginationListVariance }
+        return { variants, pagination, processing, editVariant, response, saveVariant,
+            UpdateVariant, PaginationListVariance, AddVariant }
     }
 }
 </script>
@@ -130,5 +266,8 @@ export default{
   margin: 0 0.5rem;
   font-weight: bold;
   border-radius: 0.5rem;
+}
+.action-btn{
+    width: 100%;
 }
 </style>
