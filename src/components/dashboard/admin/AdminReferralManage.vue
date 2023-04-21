@@ -440,6 +440,288 @@
                 <MDBTextarea label="Past History" rows="3" wrapperClass="mb-4"/>
                 <MDBTextarea label="Last oral intake" rows="3" wrapperClass="mb-4"/>
                 <MDBTextarea label="Events leading to the incident" rows="3" wrapperClass="mb-4"/>
+                <hr>
+                <center>
+                    <strong>SECONDARY ASSESSMENT (IF APPLICABLE)</strong>
+                </center>
+                <br>
+                <strong>DCAP-BTLS Assessment:</strong>
+                <br>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Deformity"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Contusion"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Bruise"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Laceration"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Abrasion"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Puncture"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Tenderness"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Swelling"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <br>
+                <strong>Presence of Alcohol (ETOH) and substance abuse (Sub. Ab.):</strong>
+                <br>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="ETOH"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Sub. Ab."
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <br>
+                <strong>Burn Injury:</strong>
+                <br>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBInput
+                            type="number"
+                            label="Burn %"
+                            v-model="selectedHospital.display_name"
+                            wrapperClass="mb-4"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Superf."
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Partial"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Full"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <br>
+                <strong>Pregnancy Details:</strong>
+                <br>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Gravida"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Para EDD"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="True Labor"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="< 60 sec"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="< 2 min"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <br>
+                <strong>Lungs Sound:</strong>
+                <br>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Crackles"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Wheezing"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Stridor"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Rhonchi"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Rales"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="CTA"
+                            id="form1LoginCheck"
+                            v-model="form1LoginCheck"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <br>
+                <strong>Vital Signs</strong>
+                <br>
+                
+                <MDBTable responsive="xxl" class="align-middle mb-0 bg-white text-center">
+                    <thead class="bg-dark">
+                        <tr>
+                            <th scope="col" class="table-dark">TIME</th>
+                            <th scope="col" class="table-dark">BLOOD PRESSURE</th>
+                            <th scope="col" class="table-dark">PULSE RATE</th>
+                            <th scope="col" class="table-dark">SP o2</th>
+                            <th scope="col" class="table-dark">RESPIRATORY QUALITY</th>
+                            <th scope="col"  class="table-dark">RESPIRATORY RATE</th>
+                            <th scope="col"  class="table-dark">GLUCOSE</th>
+                            <th scope="col"  class="table-dark">CRT %lt 2</th>
+                            <th scope="col"  class="table-dark">LEFT PUPIL</th>
+                            <th scope="col"  class="table-dark">RIGHT PUPIL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td scope="row">
+                                <MDBInput
+                                    type="text"
+                                    v-model="selectedHospital.display_name"
+                                    wrapperClass="mb-4"
+                                    style="width: 100%;"
+                                />
+                            </td>
+                            <td scope="row">
+                                <MDBInput
+                                    type="text"
+                                    v-model="selectedHospital.display_name"
+                                    wrapperClass="mb-4"
+                                    style="width: 100%;"
+                                />
+                            </td>
+                            <td scope="row">
+                                <MDBInput
+                                    type="text"
+                                    v-model="selectedHospital.display_name"
+                                    wrapperClass="mb-4"
+                                    style="width: 100%;"
+                                />
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                </MDBTable>
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="primary" @click="() => {
