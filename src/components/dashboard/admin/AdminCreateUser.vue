@@ -12,7 +12,6 @@
                     id="username"
                     v-model="username"
                     wrapperClass="mb-4"
-                    required
                 />
                 <MDBInput
                     type="password"
@@ -20,7 +19,6 @@
                     id="password"
                     v-model="password"
                     wrapperClass="mb-4"
-                    required
                 />
 
                 <MDBRow>
@@ -31,17 +29,15 @@
                         id="fname"
                         v-model="fname"
                         wrapperClass="mb-4"
-                        required
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
                             type="text"
-                            label="Middle Name"
+                            label="Middle Name (Optional)"
                             id="mname"
                             v-model="mname"
                             wrapperClass="mb-4"
-                            required
                         />
                     </MDBCol>
                     <MDBCol>
@@ -51,7 +47,6 @@
                             id="lname"
                             v-model="lname"
                             wrapperClass="mb-4"
-                            required
                         />
                     </MDBCol>
                 </MDBRow>
@@ -61,26 +56,32 @@
                     id="email"
                     v-model="email"
                     wrapperClass="mb-4"
-                    required
                 />
                 <div class="d-flex flex-wrap my-3">
                     <div class="flex-grow-1 mx-1 mb-3">
-                        <select class="form-select cua-input-select-2" name="role">
+                        <select class="form-select cua-input-select-2" name="role" v-model="type">
                             <option value="">CHOOSE ACCOUNT TYPE</option>
                             <option :value="rhuID">Rural Health Staff</option>
                             <option :value="rescueID">Rescue Team Staff</option>
                         </select>
                     </div>
                 </div>
-                <MDBBtn color="primary" block class="mb-4"> CREATE ACCOUNT </MDBBtn>
+                <div v-if="processing.createUser">
+                    <MDBSpinner />
+                </div>
+                <div v-else>
+                    <MDBBtn color="primary" block class="mb-4" type="submit" @click="CreateHigherUser"> CREATE ACCOUNT </MDBBtn>
+                </div>
             </form>
         </div>
     </MDBContainer>
 </template>
 
 <script>
-import { MDBContainer, MDBInput, MDBBtn, MDBRow, MDBCol } from 'mdb-vue-ui-kit';
+import { MDBContainer, MDBInput, MDBBtn, MDBRow, MDBCol, MDBSpinner } from 'mdb-vue-ui-kit';
 import DashboardBreadcrumbs from '../DashboardBreadcrumbs.vue';
+import { Users } from '../../../modules/Users'
+import {useToast} from 'vue-toast-notification';
 export default{
     name: 'CreateUsers',
     data() {
@@ -91,6 +92,8 @@ export default{
             mname: "",
             lname: "",
             email: "",
+            type: "",
+            toast: useToast(),
             rhuID: process.env.VUE_APP_RHU_ID,
             rescueID: process.env.VUE_APP_RESCUE_TEAM_ID
         }
@@ -101,7 +104,69 @@ export default{
         MDBInput,
         MDBBtn,
         MDBRow,
-        MDBCol
+        MDBCol,
+        MDBSpinner
+    },
+    methods: {
+        async CreateHigherUser(){
+
+            if (this.username == "" || this.password == "" || this.fname == "" || this.lname == "" ||
+            this.email == "" || this.type === ""){
+                this.toast.open({
+                    message: "Please fill up the form first!",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                return;
+            }
+            await this.HigherAccount(this.type, this.username, this.password,
+            this.email, this.fname, this.mname, this.lname)
+
+            if (this.response.createAccountResponse === "success"){
+                this.toast.open({
+                    message: "User Approve Successfully",
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.processing.createUser = false;
+                this.response.createAccountResponse = ""
+                this.username = ""
+                this.password = ""
+                this.fname = ""
+                this.mname - ""
+                this.lname = ""
+                this.email = ""
+                this.type = ""
+            }
+            else if (this.response.createAccountResponse === "bad-request"){
+                this.toast.open({
+                    message: "Duplicate User account ! Please try again.",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+            else{
+                this.toast.open({
+                    message: "There's a problem with your internet connection, please try again",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+        }
+    },  
+    setup(){
+        const { processing, response, HigherAccount } = Users()
+
+
+        return {  processing, response, HigherAccount }
     }
 }
 </script>

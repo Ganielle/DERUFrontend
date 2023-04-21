@@ -9,7 +9,8 @@ export const Variance = () => {
         gettingData: false,
         gettingPaginationData: false,
         updatingData: false,
-        saveData: false
+        saveData: false,
+        deleteData: false
     });
 
     const pagination = ref({
@@ -29,7 +30,8 @@ export const Variance = () => {
 
     const response = ref({
         editResponse: "",
-        saveResponse: ""
+        saveResponse: "",
+        deleteResponse: ""
     })
 
     const GetAllVariance = async () => {
@@ -56,8 +58,8 @@ export const Variance = () => {
             .then(data => {
                 variants.value.varianceList = data.data
                 pagination.value.totalPages = data.pages
+                processing.value.gettingPaginationData = false;
             })
-            processing.value.gettingPaginationData = false;
         }
         catch(err){
             console.log(err)
@@ -101,6 +103,20 @@ export const Variance = () => {
         processing.value.updatingData = false
     }
 
+    const DeleteVariant = async () => {
+        processing.value.deleteData = true
+        await fetch(process.env.VUE_APP_API_URL + "variance/" + editVariant.value.id + "/delete", { method: "DELETE"})
+        .then(res => res.json())
+        .then(data => {
+            response.value.deleteResponse = data.message
+            processing.value.deleteData = false
+        })
+        .catch(() => {
+            response.value.deleteResponse = "failed"
+            processing.value.deleteData = false
+        })
+    }
+
     return {
         variants,
         processing,
@@ -111,6 +127,7 @@ export const Variance = () => {
         GetAllVariance,
         PaginationListVariance,
         UpdateVariant,
-        AddVariant
+        AddVariant,
+        DeleteVariant
     }
 }

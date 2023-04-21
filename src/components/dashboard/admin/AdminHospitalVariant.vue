@@ -59,7 +59,11 @@
                                 }"> Edit </MDBBtn>
                             </MDBCol>
                             <MDBCol class="py-1 ">
-                                <MDBBtn size="sm" class="action-btn" color="danger"> Delete </MDBBtn>
+                                <MDBBtn size="sm" class="action-btn" color="danger"
+                                @click="() => {
+                                    editVariant.id = dataValues._id
+                                    openDelete = true
+                                }"> Delete </MDBBtn>
                             </MDBCol>
                         </MDBRow>
                     </td>
@@ -68,6 +72,7 @@
         </MDBTable>
     </MDBContainer>
 
+    <!--ADD-->
     <MDBModal
         v-model="openModal"
         scrollable
@@ -94,6 +99,7 @@
         </form>
     </MDBModal>
 
+    <!--EDIT-->
     <MDBModal
         v-model="openEdit"
         scrollable
@@ -120,6 +126,32 @@
             </MDBModalFooter>
         </form>
     </MDBModal>
+
+    <!--DELETE-->
+    <MDBModal
+        v-model="openDelete"
+        scrollable
+        centered
+    >
+        <MDBModalHeader>
+            <MDBModalTitle id="exampleModalScrollableTitle"> DELETE HOSPITAL VARIANT </MDBModalTitle>
+        </MDBModalHeader>
+        <form  v-on:submit.prevent="onSubmit">
+            <MDBModalBody> 
+                <strong>Are you sure you want to delete this variant?</strong>
+            </MDBModalBody>
+            <MDBModalFooter>
+                <MDBBtn color="secondary" @click="openDelete = false"> Close </MDBBtn>
+                <div v-if="processing.deleteData">
+                    <MDBSpinner />
+                </div>
+                <div v-else>
+                    <MDBBtn color="primary" type="submit" 
+                    @click="DeleteEntry"> Save changes </MDBBtn>
+                </div>
+            </MDBModalFooter>
+        </form>
+    </MDBModal>
 </template>
 
 <script>
@@ -136,6 +168,7 @@ export default{
         return {
             openModal: false,
             openEdit: false,
+            openDelete: false,
             toast: useToast(),
         }
     },
@@ -221,6 +254,41 @@ export default{
                     dismissible: true
                 })
             }
+        },
+        async DeleteEntry(){
+            await this.DeleteVariant()
+
+            if (this.response.deleteResponse === "success"){
+                this.toast.open({
+                    message: "Delete Successful",
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.editVariant.id = ""
+                this.pagination.currentPage = 0
+                this.PaginationListVariance()
+                this.openDelete = false
+            }
+            else if (this.response.saveResponse === "bad-request"){
+                this.toast.open({
+                    message: "There's a problem with the server! Please try again later.",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+            else{
+                this.toast.open({
+                    message: "There's a problem with your network! Please try again",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
         }
     },
     computed: {
@@ -230,14 +298,15 @@ export default{
     },
     setup() {
         const { variants, pagination, processing, editVariant,
-            response, saveVariant, UpdateVariant, PaginationListVariance, AddVariant} = Variance()
+            response, saveVariant, UpdateVariant, PaginationListVariance,
+            AddVariant, DeleteVariant} = Variance()
 
         onMounted(() => {
             PaginationListVariance()
         })
 
         return { variants, pagination, processing, editVariant, response, saveVariant,
-            UpdateVariant, PaginationListVariance, AddVariant }
+            UpdateVariant, PaginationListVariance, AddVariant, DeleteVariant }
     }
 }
 </script>

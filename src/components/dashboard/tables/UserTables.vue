@@ -51,7 +51,10 @@
                                     }"> Approve </MDBBtn>
                                 </MDBCol>
                                 <MDBCol class="py-1 ">
-                                    <MDBBtn size="sm" class="action-btn" color="danger"> Decline </MDBBtn>
+                                    <MDBBtn size="sm" class="action-btn" color="danger"
+                                    @click="() => {
+                                        $emit('decline', dataValues)
+                                    }"> Decline </MDBBtn>
                                 </MDBCol>
                             </MDBRow>
                         </td>
