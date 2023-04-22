@@ -677,51 +677,121 @@
                 <strong>Vital Signs</strong>
                 <br>
                 
-                <MDBTable responsive="xxl" class="align-middle mb-0 bg-white text-center">
-                    <thead class="bg-dark">
-                        <tr>
-                            <th scope="col" class="table-dark">TIME</th>
-                            <th scope="col" class="table-dark">BLOOD PRESSURE</th>
-                            <th scope="col" class="table-dark">PULSE RATE</th>
-                            <th scope="col" class="table-dark">SP o2</th>
-                            <th scope="col" class="table-dark">RESPIRATORY QUALITY</th>
-                            <th scope="col"  class="table-dark">RESPIRATORY RATE</th>
-                            <th scope="col"  class="table-dark">GLUCOSE</th>
-                            <th scope="col"  class="table-dark">CRT %lt 2</th>
-                            <th scope="col"  class="table-dark">LEFT PUPIL</th>
-                            <th scope="col"  class="table-dark">RIGHT PUPIL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row">
-                                <MDBInput
-                                    type="text"
-                                    v-model="selectedHospital.display_name"
-                                    wrapperClass="mb-4"
-                                    style="width: 100%;"
-                                />
-                            </td>
-                            <td scope="row">
-                                <MDBInput
-                                    type="text"
-                                    v-model="selectedHospital.display_name"
-                                    wrapperClass="mb-4"
-                                    style="width: 100%;"
-                                />
-                            </td>
-                            <td scope="row">
-                                <MDBInput
-                                    type="text"
-                                    v-model="selectedHospital.display_name"
-                                    wrapperClass="mb-4"
-                                    style="width: 100%;"
-                                />
-                            </td>
-                            
-                        </tr>
-                    </tbody>
-                </MDBTable>
+                <div v-for="(val, index) in vitalSigns" :key="index">
+                    <!--FIRST PART-->
+                    <center>
+                        <strong>ENTRY #{{ index + 1 }}</strong>
+                    </center>
+                    <br>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                type="text"
+                                label="Time"
+                                v-model="val.time"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                type="text"
+                                label="Blood Pressure"
+                                v-model="val.bloodPressure"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                type="text"
+                                label="Pulse Rate"
+                                v-model="val.pulseRate"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                    </MDBRow>
+
+                    <!--SECOND PART-->
+                    <MDBRow>
+                        <MDBCol>
+                            <br>
+                            <MDBInput
+                                type="text"
+                                label="SP o2"
+                                v-model="val.spo2"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <strong>Respiratory Quality</strong>
+                            <MDBRow>
+                                <MDBCol>
+                                    <MDBInput
+                                        type="text"
+                                        label="Entry #1"
+                                        v-model="val.respiratoryQualityOne"
+                                        wrapperClass="mb-4"
+                                    />
+                                </MDBCol>
+                                <MDBCol>
+                                    <MDBInput
+                                        type="text"
+                                        label="Entry #2"
+                                        v-model="val.respiratoryQualityTwo"
+                                        wrapperClass="mb-4"
+                                    />
+                                </MDBCol>
+                            </MDBRow>
+                        </MDBCol>
+                        <MDBCol>
+                            <br>
+                            <MDBInput
+                                type="text"
+                                label="Glucose"
+                                v-model="val.glucose"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                    </MDBRow>
+
+                    <!--THIRD PART-->
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                type="text"
+                                label="CRT < 2 sec."
+                                v-model="val.crt2sec"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                type="text"
+                                label="Left Pupil"
+                                v-model="val.leftPupil"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                type="text"
+                                label="Right Pupil"
+                                v-model="val.rightPupil"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                    </MDBRow>
+                </div>
+                <MDBRow>
+                    <MDBCol md="3" class="py-2">
+                        <MDBBtn color="primary" style="float: left; width: 100%;"
+                        @click="AddVitalSignsForm">ADD VITAL SIGNS FORM</MDBBtn>
+                    </MDBCol>
+                    <MDBCol v-if="vitalSigns.length > 1" md="3">
+                        <MDBBtn color="danger" style="float: left; width: 100%"
+                        @click="(() => vitalSigns.pop())">REMOVE VITAL SIGNS FORM</MDBBtn>
+                    </MDBCol>
+                </MDBRow>
+                
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="primary" @click="() => {
@@ -744,7 +814,35 @@ export default{
     data(){
         return{
             openReferral: false,
-            selectedHospital: []
+            selectedHospital: [],
+            vitalSigns: [{
+                time: "",
+                bloodPressure: "",
+                pulseRate: "",
+                spo2: "",
+                respiratoryQualityOne: "",
+                respiratoryQualityTwo: "",
+                glucose: "",
+                crt2sec: "",
+                leftPupil: "",
+                rightPupil: ""
+            }]
+        }
+    },
+    methods: {
+        AddVitalSignsForm(){
+            this.vitalSigns.push({
+                time: "",
+                bloodPressure: "",
+                pulseRate: "",
+                spo2: "",
+                respiratoryQualityOne: "",
+                respiratoryQualityTwo: "",
+                glucose: "",
+                crt2sec: "",
+                leftPupil: "",
+                rightPupil: ""
+            })
         }
     },
     components: {
