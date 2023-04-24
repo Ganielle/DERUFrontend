@@ -19,4 +19,7 @@ body{
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+.v-toast{
+  z-index: 9999;
+}
 </style>

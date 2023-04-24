@@ -4,15 +4,30 @@
         <div class="list-title-bg">
             <div class="list-title">AVAILABLE HEALTHCARE UNIT HOSPITALS</div>
         </div>
+        <br>
+        <MDBBtn color="warning" style="float: right" 
+            @click="() => {
+                modalTitle = 'PATIENT REFUSAL REPORT'
+                formData.withReferral = false
+                openReferral = true
+            }">Patient Refusal Report</MDBBtn>
         <div class="list-table">
             <MDBContainer class="px-0 mb-3 d-flex align-items-center justify-content-center">
                 <button class="tc-pager" role="button" 
-                :disabled="pagination.currentPage <= 0">
+                :disabled="pagination.currentPage <= 0"
+                @click="() => {
+                        pagination.currentPage -= 1
+                        ListApproveHospitals()
+                    }">
                     <MDBIcon fas icon="angle-double-left" />
                 </button>
                 <div class="tc-page">{{ pagination.currentPage + 1 }}</div>
                 <button class="tc-pager" role="button"
-                :disabled="pagination.currentPage >= pagination.totalPage - 1">
+                :disabled="pagination.currentPage >= pagination.totalPage - 1" 
+                @click="() => {
+                        pagination.currentPage += 1
+                        ListApproveHospitals()
+                    }">
                     <MDBIcon fas icon="angle-double-right" />
                 </button>
             </MDBContainer>
@@ -57,7 +72,9 @@
                         <td scope="row">
                             <MDBBtn color="success" class="py-2 fill-btn"
                             @click="() => {
+                                modalTitle = 'REFERRAL FORM'
                                 selectedHospital = dataVals
+                                formData.withReferral = true
                                 openReferral = true
                             }">SEND REFERRAL</MDBBtn>
                         </td>
@@ -67,21 +84,20 @@
         </div>
     </MDBContainer>
 
-    <!--VIEW-->
     <MDBModal
-    v-model="openReferral"
-    scrollable
-    centered
-    class="modal-lg"
+        v-model="openReferral"
+        scrollable
+        centered
+        class="modal-lg"
     >
         <MDBModalHeader>
-            <MDBModalTitle id="exampleModalScrollableTitle"> FILL UP REFERRAL FORM </MDBModalTitle>
+            <MDBModalTitle id="exampleModalScrollableTitle"> {{modalTitle}} </MDBModalTitle>
         </MDBModalHeader>
         <MDBModalBody> 
             <MDBInput
                 type="text"
                 label="ID Caller"
-                v-model="selectedHospital.display_name"
+                v-model="formData.idCaller"
                 wrapperClass="mb-4"
             />
                 <MDBRow>
@@ -89,7 +105,7 @@
                         <MDBInput
                             type="text"
                             label="Dispatch Time"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.dispatchTime"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -97,7 +113,7 @@
                         <MDBInput
                             type="text"
                             label="En route"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.enRoute"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -107,7 +123,7 @@
                         <MDBInput
                             type="text"
                             label="At the scene"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.atTheScene"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -115,7 +131,7 @@
                         <MDBInput
                             type="text"
                             label="Left the scene"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.leftTheScene"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -123,7 +139,7 @@
                         <MDBInput
                             type="text"
                             label="At the Facility"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.atTheFacility"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -131,7 +147,7 @@
                 <MDBInput
                     type="text"
                     label="Site of response"
-                    v-model="selectedHospital.display_name"
+                    v-model="formData.siteOfResponse"
                     wrapperClass="mb-4"
                 />
                 <hr>
@@ -144,7 +160,7 @@
                         <MDBInput
                             type="text"
                             label="First Name"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.fname"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -152,7 +168,7 @@
                         <MDBInput
                             type="text"
                             label="Middle Name"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.mname"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -160,7 +176,7 @@
                         <MDBInput
                             type="text"
                             label="Last Name"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.lname"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -170,7 +186,7 @@
                         <MDBInput
                             type="text"
                             label="Temperature"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.temperature"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -178,7 +194,7 @@
                         <MDBInput
                             type="date"
                             label="Date of Birth"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.dob"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -186,15 +202,26 @@
                         <MDBInput
                             type="number"
                             label="Age"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.age"
                             wrapperClass="mb-4"
                         />
+                    </MDBCol>
+                    <MDBCol>
+                        <div class="d-flex flex-wrap my-3">
+                            <div class="flex-grow-1 mx-1 mb-3">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.sex">
+                                    <option value="">Sex</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+                                </select>
+                            </div>
+                        </div>
                     </MDBCol>
                 </MDBRow>
                 <MDBInput
                     type="number"
                     label="Contact Number"
-                    v-model="selectedHospital.display_name"
+                    v-model="formData.contactNumber"
                     wrapperClass="mb-4"
                 />
                 <hr>
@@ -207,7 +234,7 @@
                         <MDBInput
                             type="text"
                             label="Next of Kin Name"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.nextOfKinName"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -215,7 +242,7 @@
                         <MDBInput
                             type="number"
                             label="Contact Number"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.contactNumberKin"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -223,7 +250,7 @@
                         <MDBInput
                             type="text"
                             label="Temperature"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.temperatureKin"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -238,16 +265,14 @@
                     <MDBCol>
                         <MDBCheckbox
                             label="Lost of consciousness prior arrival"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.lostOfConsciousness"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Considered manual head stabilisation"
-                            id="form2LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.consideredManual"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
@@ -256,7 +281,7 @@
                 <MDBInput
                     type="text"
                     label="CC Chief Complaint"
-                    v-model="selectedHospital.display_name"
+                    v-model="formData.ccChiefComplaint"
                     wrapperClass="mb-4"
                 />
                 <hr>
@@ -268,7 +293,7 @@
                         <div class="d-flex flex-wrap my-3">
                             <div class="flex-grow-1 mx-1 mb-3">
                                 <p style="margin-bottom: 0;">Eye Opening:</p>
-                                <select class="form-select cua-input-select-2" name="role" v-model="type">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.eyeOpening">
                                     <option value=""></option>
                                     <option value="4">4 (Oriented)</option>
                                     <option value="3">3 (Voice)</option>
@@ -282,7 +307,7 @@
                         <div class="d-flex flex-wrap my-3">
                             <div class="flex-grow-1 mx-1 mb-3">
                                 <p style="margin-bottom: 0;">Verbal Response:</p>
-                                <select class="form-select cua-input-select-2" name="role" v-model="type">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.verbalResponse">
                                     <option value=""></option>
                                     <option value="5">5 (Oriented)</option>
                                     <option value="4">4 (Confused)</option>
@@ -297,7 +322,7 @@
                         <div class="d-flex flex-wrap my-3">
                             <div class="flex-grow-1 mx-1 mb-3">
                                 <p style="margin-bottom: 0;">Motor Response:</p>
-                                <select class="form-select cua-input-select-2" name="role" v-model="type">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.motorResponse">
                                     <option value=""></option>
                                     <option value="6">6 (Obey commands)</option>
                                     <option value="5">5 (Localized pain)</option>
@@ -315,7 +340,7 @@
                         <div class="d-flex flex-wrap my-3">
                             <div class="flex-grow-1 mx-1 mb-3">
                                 <p style="margin-bottom: 0;">Airway:</p>
-                                <select class="form-select cua-input-select-2" name="role" v-model="type">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.airway">
                                     <option value=""></option>
                                     <option value="3">Clear</option>
                                     <option value="2">Partial</option>
@@ -328,7 +353,7 @@
                         <div class="d-flex flex-wrap my-3">
                             <div class="flex-grow-1 mx-1 mb-3">
                                 <p style="margin-bottom: 0;">Circulation of pulse:</p>
-                                <select class="form-select cua-input-select-2" name="role" v-model="type">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.circulationOfPulse">
                                     <option value=""></option>
                                     <option value="5">Normal</option>
                                     <option value="4">Rapid</option>
@@ -343,7 +368,7 @@
                         <div class="d-flex flex-wrap my-3">
                             <div class="flex-grow-1 mx-1 mb-3">
                                 <p style="margin-bottom: 0;">Breathing:</p>
-                                <select class="form-select cua-input-select-2" name="role" v-model="type">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.breathing">
                                     <option value=""></option>
                                     <option value="6">Normal</option>
                                     <option value="5">Fast</option>
@@ -359,7 +384,7 @@
                         <div class="d-flex flex-wrap my-3">
                             <div class="flex-grow-1 mx-1 mb-3">
                                 <p style="margin-bottom: 0;">Skin:</p>
-                                <select class="form-select cua-input-select-2" name="role" v-model="type">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.skin">
                                     <option value=""></option>
                                     <option value="9">Normal</option>
                                     <option value="8">Flused</option>
@@ -381,13 +406,13 @@
                 </center>
                 <br>
                 <MDBTextarea label="Onset" rows="4" 
-                    formText="When the pain started?"/>
+                    formText="When the pain started?" v-model="formData.onset"/>
                 <MDBRow>
                     <MDBCol>
                         <div class="d-flex flex-wrap my-3">
                             <div class="flex-grow-1 mx-1 mb-3">
                                 <p style="margin-bottom: 0;">Palliation/Provocation:</p>
-                                <select class="form-select cua-input-select-2" name="role" v-model="type">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.palliationProvocation">
                                     <option value=""></option>
                                     <option value="1">Palliation</option>
                                     <option value="2">Provocation</option>
@@ -399,7 +424,7 @@
                         <div class="d-flex flex-wrap my-3">
                             <div class="flex-grow-1 mx-1 mb-3">
                                 <p style="margin-bottom: 0;">Quality:</p>
-                                <select class="form-select cua-input-select-2" name="role" v-model="type">
+                                <select class="form-select cua-input-select-2" name="role" v-model="formData.quality">
                                     <option value=""></option>
                                     <option value="5">Sharp</option>
                                     <option value="4">Dull</option>
@@ -412,11 +437,11 @@
                     </MDBCol>
                 </MDBRow>
                 <MDBTextarea label="Radiation" rows="4" 
-                    formText="Does it raidate to other areas?"/>
+                    formText="Does it raidate to other areas?" v-model="formData.radiation"/>
                 <div class="d-flex flex-wrap my-3">
                     <div class="flex-grow-1 mx-1 mb-3">
                         <p style="margin-bottom: 0;">Severity:</p>
-                        <select class="form-select cua-input-select-2" name="role" v-model="type">
+                        <select class="form-select cua-input-select-2" name="role" v-model="formData.severity">
                             <option value=""></option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -432,14 +457,19 @@
                     </div>
                 </div>
                 <MDBTextarea label="Time" rows="4" 
-                formText="Is it pain the same as it started or is it increased or decreased?"/>
+                formText="Is it pain the same as it started or is it increased or decreased?" v-model="formData.time"/>
                 <br>
-                <MDBTextarea label="Signs and Symptoms" rows="3" wrapperClass="mb-4"/>
-                <MDBTextarea label="Age/Athlethecism/Allergies" rows="3" wrapperClass="mb-4" />
-                <MDBTextarea label="Medication" rows="3" wrapperClass="mb-4"/>
-                <MDBTextarea label="Past History" rows="3" wrapperClass="mb-4"/>
-                <MDBTextarea label="Last oral intake" rows="3" wrapperClass="mb-4"/>
-                <MDBTextarea label="Events leading to the incident" rows="3" wrapperClass="mb-4"/>
+                <MDBTextarea label="Signs and Symptoms" rows="3" wrapperClass="mb-4" v-model="formData.signSymptoms"/>
+                <MDBTextarea label="Age/Athlethecism/Allergies" rows="3" wrapperClass="mb-4"
+                v-model="formData.ageAthletecismAllergies" />
+                <MDBTextarea label="Medication" rows="3" wrapperClass="mb-4" 
+                v-model="formData.medication"/>
+                <MDBTextarea label="Past History" rows="3" wrapperClass="mb-4"
+                v-model="formData.pastHistory"/>
+                <MDBTextarea label="Last oral intake" rows="3" wrapperClass="mb-4"
+                v-model="formData.lastOralIntake"/>
+                <MDBTextarea label="Events leading to the incident" rows="3" wrapperClass="mb-4"
+                v-model="formData.eventsLeadingToAccident"/>
                 <hr>
                 <center>
                     <strong>SECONDARY ASSESSMENT (IF APPLICABLE)</strong>
@@ -451,32 +481,28 @@
                     <MDBCol>
                         <MDBCheckbox
                             label="Deformity"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.deformity"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Contusion"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.contusion"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Bruise"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.bruise"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Laceration"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.laceration"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
@@ -485,32 +511,28 @@
                     <MDBCol>
                         <MDBCheckbox
                             label="Abrasion"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.abrasion"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Puncture"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.puncture"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Tenderness"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.tenderness"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Swelling"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.swelling"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
@@ -522,16 +544,14 @@
                     <MDBCol>
                         <MDBCheckbox
                             label="ETOH"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.etoh"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Sub. Ab."
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.subab"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
@@ -544,31 +564,28 @@
                         <MDBInput
                             type="number"
                             label="Burn %"
-                            v-model="selectedHospital.display_name"
+                            v-model="formData.burn"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Superf."
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.superf"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Partial"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.partial"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Full"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.full"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
@@ -580,40 +597,35 @@
                     <MDBCol>
                         <MDBCheckbox
                             label="Gravida"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.gravida"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Para EDD"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.paraedd"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="True Labor"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.truelabor"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="< 60 sec"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.sec60"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="< 2 min"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.min2"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
@@ -625,24 +637,21 @@
                     <MDBCol>
                         <MDBCheckbox
                             label="Crackles"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.crackles"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Wheezing"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.wheezing"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Stridor"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.stridor"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
@@ -651,24 +660,21 @@
                     <MDBCol>
                         <MDBCheckbox
                             label="Rhonchi"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.rhonchi"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="Rales"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.rales"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="CTA"
-                            id="form1LoginCheck"
-                            v-model="form1LoginCheck"
+                            v-model="formData.cta"
                             wrapperClass="mb-3 mb-md-0"
                         />
                     </MDBCol>
@@ -677,7 +683,7 @@
                 <strong>Vital Signs</strong>
                 <br>
                 
-                <div v-for="(val, index) in vitalSigns" :key="index">
+                <div v-for="(val, index) in formData.vitalSigns" :key="index">
                     <!--FIRST PART-->
                     <center>
                         <strong>ENTRY #{{ index + 1 }}</strong>
@@ -786,18 +792,370 @@
                         <MDBBtn color="primary" style="float: left; width: 100%;"
                         @click="AddVitalSignsForm">ADD VITAL SIGNS FORM</MDBBtn>
                     </MDBCol>
-                    <MDBCol v-if="vitalSigns.length > 1" md="3">
+                    <MDBCol v-if="formData.vitalSigns.length > 1" md="3" class="py-2">
                         <MDBBtn color="danger" style="float: left; width: 100%"
                         @click="(() => vitalSigns.pop())">REMOVE VITAL SIGNS FORM</MDBBtn>
                     </MDBCol>
                 </MDBRow>
-                
+                <br>
+                <hr>
+                <strong>Management</strong>
+                <br>
+                <center>
+                    <strong>AIRWAY</strong>
+                </center>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Open Airway"
+                            v-model="formData.openAirway"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Man. Clear."
+                            v-model="formData.manClear"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Suction"
+                            v-model="formData.suction"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="o2 b L L L"
+                            v-model="formData.o2blll"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="OPA"
+                            v-model="formData.opa"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="NC"
+                            v-model="formData.nc"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Nebul"
+                            v-model="formData.nebul"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="BVM"
+                            v-model="formData.bvm"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <br>
+                <center>
+                    <strong>CIRCULATION</strong>
+                </center>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="CPR"
+                            v-model="formData.cpr"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBInput
+                            type="text"
+                            label="Start @"
+                            v-model="formData.circulationStart"
+                            wrapperClass="mb-4"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBInput
+                            type="text"
+                            label="Cycles"
+                            v-model="formData.circulationCycle"
+                            wrapperClass="mb-4"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <br>
+                <center>
+                    <strong>IMMOBILISATION</strong>
+                </center>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="C-Spine"
+                            v-model="formData.cspine"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Splint"
+                            v-model="formData.splint"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <br>
+                <center>
+                    <strong>WOUND / BURN CARE</strong>
+                </center>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Cleaning"
+                            v-model="formData.cleaning"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Bandaging"
+                            v-model="formData.bandaging"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Occlusive Dressing"
+                            v-model="formData.occlusiveDressing"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <br>
+                <strong>OTHERS</strong>
+                <MDBCheckbox
+                    label="Positioning Cold/Warm"
+                    v-model="formData.positioningColdWarm"
+                    wrapperClass="mb-3 mb-md-0"
+                />
+                <div v-if="formData.withReferral">
+                    <hr>
+                    <center>
+                        <strong>RECEIVING FACILITY (LOOKING FOR HOSPITAL REFERRAL/CALLING)</strong>
+                        <br><strong>PATIENT CHOOSE TO BE TRANSPORTED TO THE HOSPITAL</strong>
+                        <br><strong>GO TO 4.1</strong>
+                    </center>
+                    <br>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput
+                                type="text"
+                                label="Receving Facility"
+                                v-model="formData.receivingFacility"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                type="text"
+                                label="Receving Provider"
+                                v-model="formData.receivingProvider"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput
+                                type="text"
+                                label="Position"
+                                v-model="formData.position"
+                                wrapperClass="mb-4"
+                            />
+                        </MDBCol>
+                    </MDBRow>
+                    <strong>SIGNATURE</strong>
+                    <MDBTextarea label="Additional Information" rows="3" wrapperClass="mb-4"
+                    v-model="formData.signatureAdditionalInfo"/>
+                    <MDBCheckbox
+                        label="By Checking this, You're agreeing to everything to the statement above"
+                        v-model="formData.agreementPatient"
+                        wrapperClass="mb-3 mb-md-0"
+                    />
+                    <br>
+                    <MDBInput label="Time" type="text" v-model="formData.signatureTime"/>
+                </div>
+                <div v-else>
+                    <hr>
+                    <center>
+                        <strong>REFUSAL OF TREATMENT AND/OR TRANSPORT</strong>
+                    </center>
+                    <br>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBCheckbox
+                                label="Evalutaion"
+                                v-model="formData.evaluation"
+                                wrapperClass="mb-3 mb-md-0"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBCheckbox
+                                label="Treatment"
+                                v-model="formData.treatment"
+                                wrapperClass="mb-3 mb-md-0"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBCheckbox
+                                label="Transport"
+                                v-model="formData.transport"
+                                wrapperClass="mb-3 mb-md-0"
+                            />
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput label="Patient's printed name" type="text" v-model="formData.refusalName"/>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput label="Age" type="number" v-model="formData.refusalAge"/>
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput label="DoB" type="date" v-model="formData.refusalDoB"/>
+                        </MDBCol>
+                    </MDBRow>
+                    <br>
+                    <MDBTextarea label="Patient's address" row="4" v-model="formData.refusaladdress" />
+                    <br>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBCheckbox
+                                label="By checking this, the patient is agreeing with the form above"
+                                v-model="formData.refusalAgree"
+                                wrapperClass="mb-3 mb-md-0"
+                            />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput label="Witness Relationship (If applicable)" type="text"
+                                v-model="formData.refusalRelationship" />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBCheckbox 
+                            label="By checking this, the witness is agreeing with that he/she witness the said events"
+                            type="text" v-model="formData.refusalWitnessAgree"/>
+                        </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                        <MDBCol>
+                            <MDBInput label="Witness Printed Name" type="text"
+                                v-model="formData.refusalWitnessName" />
+                        </MDBCol>
+                        <MDBCol>
+                            <MDBInput label="Date and Time" type="date" 
+                                v-model="formData.refusalDateTime" />
+                        </MDBCol>
+                    </MDBRow>
+                </div>
+                <hr>
+                <center>
+                    <strong>RECOGNITION OF DEATH (OPTIONAL)</strong>
+                </center>
+                <br>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Decomposition"
+                            v-model="formData.decomposition"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Rigor Mortis"
+                            v-model="formData.rigormortis"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Incineration"
+                            v-model="formData.incineration"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Decapitation"
+                            v-model="formData.decapitation"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Pooling"
+                            v-model="formData.pooling"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="Other injuries totally incompatible with life"
+                            v-model="formData.otherInjuries"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <MDBTextarea label="PLEASE SPECIFIY NATURE OF INJURIES" row="4" 
+                    v-model="formData.natureOfInjuries"/>
+                <hr>
+                <center>
+                    <strong>PROVIDER</strong>
+                </center>
+                <br>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBInput label="EMR" type="text" v-model="formData.emr"/>
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="By Checking this, The provider is agreeing in EMR"
+                            v-model="formData.emragree"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol>
+                        <MDBInput label="Odometer Differencial" type="text" v-model="formData.odometerDifferencial" />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBInput label="EMR(TL)" type="text" v-model="formData.emrtl" />
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBCheckbox
+                            label="By Checking this, The provider is agreeing in EMR(TL)"
+                            v-model="formData.emrtlAgree"
+                            wrapperClass="mb-3 mb-md-0"
+                        />
+                    </MDBCol>
+                </MDBRow>
+                <MDBInput label="Time Endorsement" type="text" v-model="formData.timeEndorsement" />
             </MDBModalBody>
             <MDBModalFooter>
-                <MDBBtn color="primary" @click="() => {
+                <MDBBtn color="secondary" @click="() => {
+                    formData.withReferral = false
                     openReferral = false
-                    selectedHospital = []
                 }" > Back </MDBBtn>
+                <MDBSpinner v-if="pcrProcessing.savingData" />
+                <MDBBtn v-else color="primary" @click="SendReferral" > Send Referral </MDBBtn>
             </MDBModalFooter>
     </MDBModal>
 </template>
@@ -809,29 +1167,151 @@ import { MDBContainer, MDBIcon, MDBTable, MDBSpinner, MDBBtn,
 import DashboardBreadcrumbs from '../DashboardBreadcrumbs.vue';
 import { Hospitals } from '../../../modules/hospital';
 import { onMounted } from 'vue';
+import { PCR } from '../../../modules/pcr'
+import {useToast} from 'vue-toast-notification';
 export default{
     name: 'ReferralManage',
     data(){
         return{
             openReferral: false,
             selectedHospital: [],
-            vitalSigns: [{
+            toast: useToast(),
+            modalTitle: "",
+            formData: {
+                hospital: "",
+                withReferral: false,
+                idCaller: "",
+                dispatchTime: "",
+                enRoute: "",
+                atTheScene: "",
+                leftTheScene: "",
+                atTheFacility: "",
+                siteOfResponse: "",
+                fname: "",
+                mname: "",
+                lname: "",
+                temperature: "",
+                dob: "",
+                age: "",
+                sex: "",
+                contactNumber: "",
+                nextOfKinName: "",
+                contactNumberKin: "",
+                temperatureKin: "",
+                lostOfConsciousness: false,
+                consideredManual: false,
+                ccChiefComplaint: "",
+                eyeOpening: "",
+                verbalResponse: "",
+                motorResponse: "",
+                airway: "",
+                circulationOfPulse: "",
+                breathing: "",
+                skin: "",
+                onset: "",
+                palliationProvocation: "",
+                quality: "",
+                radiation: "",
+                severity: "",
                 time: "",
-                bloodPressure: "",
-                pulseRate: "",
-                spo2: "",
-                respiratoryQualityOne: "",
-                respiratoryQualityTwo: "",
-                glucose: "",
-                crt2sec: "",
-                leftPupil: "",
-                rightPupil: ""
-            }]
+                signSymptoms: "",
+                ageAthletecismAllergies: "",
+                medication: "",
+                pastHistory: "",
+                lastOralIntake: "",
+                eventsLeadingToAccident: "",
+                deformity: false,
+                contusion: false,
+                bruise: false,
+                laceration: false,
+                abrasion: false,
+                puncture: false,
+                tenderness: false,
+                swelling: false,
+                etoh: false,
+                subab: false,
+                burn: "",
+                superf: false,
+                partial: false,
+                full: false,
+                gravida: false,
+                paraedd: false,
+                truelabor: false,
+                sec60: false,
+                min2: false,
+                crackles: false,
+                wheezing: false,
+                stridor: false,
+                rhonchi: false,
+                rales: false,
+                cta: false,
+                vitalSigns: [{
+                    time: "",
+                    bloodPressure: "",
+                    pulseRate: "",
+                    spo2: "",
+                    respiratoryQualityOne: "",
+                    respiratoryQualityTwo: "",
+                    glucose: "",
+                    crt2sec: "",
+                    leftPupil: "",
+                    rightPupil: ""
+                }],
+                openAirway: false,
+                manClear: false,
+                suction: false,
+                o2blll: false,
+                opa: false,
+                nc: false,
+                nebul: false,
+                bvm: false,
+                cpr: false,
+                circulationStart: "",
+                circulationCycle: "",
+                cspine: false,
+                splint: false,
+                cleaning: false,
+                bandaging: false,
+                occlusiveDressing: false,
+                positioningColdWarm: false,
+                receivingFacility: "",
+                receivingProvider: "",
+                position: "",
+                signatureAdditionalInfo: "",
+                agreementPatient: false,
+                signatureTime: "",
+                evaluation: false,
+                treatment: false,
+                transport: false,
+                refusalName: "",
+                refusalAge: "",
+                refusalDoB: "",
+                refusaladdress: "",
+                refusalAgree: false,
+                refusalRelationship: "",
+                refusalWitnessAgree: false,
+                refusalWitnessName: "",
+                refusalDateTime: "",
+                decomposition: false,
+                rigormortis: false,
+                incineration: false,
+                decapitation: false,
+                pooling: false,
+                otherInjuries: false,
+                natureOfInjuries: "",
+                emr: "",
+                emragree: false,
+                odometerDifferencial: "",
+                emrtl: "",
+                emrtlAgree: false,
+                timeEndorsement: ""
+            }
+            
         }
     },
     methods: {
         AddVitalSignsForm(){
-            this.vitalSigns.push({
+            this.formData.vitalSigns.push({
                 time: "",
                 bloodPressure: "",
                 pulseRate: "",
@@ -843,6 +1323,46 @@ export default{
                 leftPupil: "",
                 rightPupil: ""
             })
+        },
+        async SendReferral(){
+            if (this.selectedHospital?._id !== null){
+                this.formData.hospital = this.selectedHospital._id
+            }
+            else{
+                this.formData.hospital = ""
+            }
+            await this.SavePCR(this.formData)
+
+            if (this.pcrResponse.saveResponse === "success"){
+                this.toast.open({
+                    message: "Referral send Successfully",
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.pcrProcessing.savingData = false;
+                this.pcrResponse.saveResponse = ""
+                this.openReferral = false;
+            }
+            else if (this.response.createAccountResponse === "bad-request"){
+                this.toast.open({
+                    message: "Duplicate User account ! Please try again.",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+            else{
+                this.toast.open({
+                    message: "There's a problem with your internet connection, please try again",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
         }
     },
     components: {
@@ -865,12 +1385,21 @@ export default{
     },
     setup(){
         const { hospitalValues, response, pagination, hospitalProcessing, ListApproveHospitals } = Hospitals()
+        const { pcrProcessing, pcrResponse, SavePCR } = PCR()
 
         onMounted(() => {
             ListApproveHospitals()
         })
 
-        return { hospitalValues, response, pagination, hospitalProcessing, ListApproveHospitals }
+        return { 
+            hospitalValues,
+            response,
+            pagination, 
+            hospitalProcessing, 
+            pcrResponse,
+            pcrProcessing,
+            SavePCR,
+            ListApproveHospitals }
     }
 }
 </script>
