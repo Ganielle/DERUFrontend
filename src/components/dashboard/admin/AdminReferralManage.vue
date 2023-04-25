@@ -5,7 +5,7 @@
             <div class="list-title">AVAILABLE HEALTHCARE UNIT HOSPITALS</div>
         </div>
         <br>
-        <MDBBtn color="warning" style="float: right" 
+        <MDBBtn color="warning" style="float: right; margin-right: 2vw;" 
             @click="() => {
                 modalTitle = 'PATIENT REFUSAL REPORT'
                 formData.withReferral = false
@@ -1347,7 +1347,7 @@ export default{
             }
             else if (this.response.createAccountResponse === "bad-request"){
                 this.toast.open({
-                    message: "Duplicate User account ! Please try again.",
+                    message: "There's a problem with the server! Please try again.",
                     type: 'error',
                     position: 'top',
                     duration: 3000,

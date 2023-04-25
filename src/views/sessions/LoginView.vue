@@ -34,7 +34,7 @@ export default {
 <style scoped lang="scss">
 .login-view{
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: aqua;
     margin: 0;
 }

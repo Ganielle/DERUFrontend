@@ -41,8 +41,12 @@
                     </MDBBtn>
                 </MDBCol>
             </MDBRow>
+            <MDBBtn color="primary" block class="mb-4" @click="() =>{
+                restartPatientNavLink('form')
+                this.$router.push({name: 'medicalAssistance'})
+            }">I'm a patient</MDBBtn>
         </MDBContainer>
-        <MDBBtn color="primary" block class="mb-4" type="submit">I'm a patient</MDBBtn>
+        
   </form>
     </div>
     
@@ -72,7 +76,7 @@ export default{
         MDBSpinner
     },
     methods: {
-        ...mapMutations(["restartDashboardLink"]),
+        ...mapMutations(["restartDashboardLink", "restartPatientNavLink"]),
         async LoginProcess(){
             if (this.username === "" && this.password === ""){
                 return;

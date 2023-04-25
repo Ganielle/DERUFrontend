@@ -9,7 +9,8 @@ export const store = createStore({
             registerHospital: [],
             selectedVariants:[],
             currentSideBar: "",
-            currentSubNav: ""
+            currentSubNav: "",
+            currentPatientChatNav: ""
         }
     },
     mutations: {
@@ -18,6 +19,9 @@ export const store = createStore({
             state.registerAccount = []
             state.registerHospital = []
             state.selectedVariants = []
+        },
+        restartPatientNavLink(state, payload){
+            state.currentPatientChatNav = payload
         },
         addSignupStep(state, payload){
             state.stepIndex += payload
@@ -43,6 +47,9 @@ export const store = createStore({
         },
         setSubLink(state, payload){
             state.currentSubNav = payload
+        },
+        setPatientNavLink(state, payload){
+            state.currentPatientChatNav = payload
         }
     },
     plugins: [createPersistedState()]

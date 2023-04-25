@@ -1277,11 +1277,7 @@
                     selectedPCR = []
                     isView = false
                 }" > Back </MDBBtn>
-                <MDBBtn v-if="!isView" color="success" @click="() => {
-                    openPCR = false
-                    selectedPCR = []
-                    isView = false
-                }" > Submit </MDBBtn>
+                <MDBBtn v-if="!isView" color="success" @click="UpdatePCR" > Submit </MDBBtn>
             </MDBModalFooter>
     </MDBModal>
 </template>
@@ -1323,15 +1319,56 @@ export default{
         MDBCheckbox,
         MDBTextarea
     },
+    methods: {
+        async UpdatePCR(){
+            await this.EditPCR(this.selectedPCR)
+
+            if (this.pcrResponse.saveResponse === "success"){
+                this.toast.open({
+                    message: "PCR Updated Successfully",
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.pcrProcessing.savingData = false;
+                this.pcrResponse.saveResponse = ""
+                this.isView = false;
+                this.selectedPCR = []
+                this.openPCR = false
+                this.GetPCR()
+            }
+            else if (this.pcrResponse.saveResponse === "bad-request"){
+                this.toast.open({
+                    message: "There's a problem with the server ! Please try again.",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.pcrProcessing.savingData = false;
+            }
+            else{
+                this.toast.open({
+                    message: "There's a problem with your internet connection, please try again",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.pcrProcessing.savingData = false;
+            }
+        }
+    },
     setup(){
-        const { pcrProcessing, pcrResponse, pcrValues,pcrPagination, GetPCR } = PCR()
+        const { pcrProcessing, pcrResponse, pcrValues,pcrPagination, GetPCR, EditPCR } = PCR()
 
         onMounted(() => {
             GetPCR()
         })
 
         return {
-            pcrProcessing, pcrResponse, pcrValues,pcrPagination, GetPCR
+            pcrProcessing, pcrResponse, pcrValues,pcrPagination, GetPCR, EditPCR
         }
     }
 }

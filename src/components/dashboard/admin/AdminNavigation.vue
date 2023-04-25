@@ -111,9 +111,13 @@
             </div>
         </div>
         <!--NAV ITEM-->
-        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer">
+        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
+        :class="{'sidebar-active-link': currentSideBar == 'assistance'}" 
+        @click="() => {
+          setSidebarLink('assistance')
+        }">
             <div class="sidebar-icon-container">
-                <MDBIcon fas icon="clipboard-list" size="xl" title="PRC" />
+                <MDBIcon fas icon="comment" size="xl" title="PRC" />
               </div>
             <div class="flex-grow-1 sidebar-link-header-title">
                 MEDICAL ASSISTANCE

@@ -24,6 +24,11 @@ const routes = [
     path: '/dashboard/admin',
     name: 'adminDashboard',
     component: () => import('../views/dashboard/Admin.vue')
+  },
+  {
+    path: '/patient/medicalassistance',
+    name: 'medicalAssistance',
+    component: () => import('../views/chat/PatientChat.vue')
   }
 ]
 

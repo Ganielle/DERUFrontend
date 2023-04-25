@@ -60,12 +60,36 @@ export const PCR = () => {
         })
     }
 
+    const EditPCR = async (data) => {
+        pcrProcessing.value.savingData = true
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                data
+            })
+        }
+        await fetch(process.env.VUE_APP_API_URL + "pcr/" + data._id + "/update", requestOptions)
+        .then(res => res.json())
+        .then(data => {
+            pcrResponse.value.saveResponse = data.message
+            pcrProcessing.value.savingData = false
+        })
+        .catch(() => {
+            pcrProcessing.value.savingData = false;
+            pcrResponse.value.saveResponse = "failed"
+        })
+    }
+
     return {
         pcrProcessing,
         pcrPagination,
         pcrResponse,
         pcrValues,
         SavePCR,
-        GetPCR
+        GetPCR,
+        EditPCR
     }
 }
