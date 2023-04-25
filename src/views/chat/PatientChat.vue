@@ -5,7 +5,7 @@
             this.$router.push({name: 'home'})
         }" style="margin-left: 5vw;">RETURN TO LOGIN</MDBBtn>
         <div v-if="currentPatientChatNav === 'form'" class="centerpanel">
-            <PatientForm />
+            <PatientForm @requestChat="GoChat" :chatroomId="createdRoomId"/>
         </div>
     </div>
     
@@ -14,9 +14,20 @@
 <script>
 import { MDBBtn } from 'mdb-vue-ui-kit';
 import { mapState, mapMutations } from 'vuex';
+import { socket } from '@/socket'
 import PatientForm from '@/components/patient/ChatFillupForm.vue'
+import { Room } from '@/modules/room'
+import {useToast} from 'vue-toast-notification';
 export default{
     name: 'PatientChat',
+    data(){
+        return{
+            formData: [],
+            createdRoomId: "",
+            approve: "",
+            toast: useToast(),
+        }
+    },
     components:{
         PatientForm,
         MDBBtn
@@ -25,7 +36,70 @@ export default{
         ...mapState(["currentPatientChatNav"])
     },
     methods: {
-        ...mapMutations(["setPatientNavLink"])
+        ...mapMutations(["setPatientNavLink"]),
+        async GoChat(formData){
+            this.formData = formData
+
+            await this.CreateRoom(this.formData)
+
+            if (this.roomResponse.saveResponse === "success"){
+                this.toast.open({
+                    message: "Chat Assistance Requested Successfully",
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.createdRoomId = this.roomValues.createdRoom._id
+
+                socket.emit("create-room", { data: this.formData })
+                socket.emit("leave-lobby")
+                socket.on("leave-lobby-response", (data) => {
+                    console.log("leave room", data)
+                    if (data.message === "success"){
+                        socket.emit("join_room", { roomId: this.roomValues?.createdRoom?._id, 
+                            name: formData.nameOfPatient })
+                        socket.on("joined-room", (data) => console.log(data))
+                    }
+                })
+            }
+            else if (this.roomResponse.saveResponse === "bad-request"){
+                this.toast.open({
+                    message: "There's a problem with the server! Please try again later",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+            else{
+                this.toast.open({
+                    message: "There's a problem with your connection! Please try again later",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            }
+
+            
+        },
+        ConnectToLobby(){
+            socket.connect();
+            socket.on('connect', () => {
+                socket.emit("join_lobby", { roomId: "lobby"})
+            })
+        }
+    },
+    mounted: function(){
+        this.ConnectToLobby()
+    },
+    setup() {
+        const { roomValues, roomProcessing, 
+            roomResponse, CreateRoom } = Room()
+
+        return { roomValues, roomProcessing, 
+            roomResponse, CreateRoom }
     }
 }
 </script>

@@ -10,7 +10,9 @@ export const store = createStore({
             selectedVariants:[],
             currentSideBar: "",
             currentSubNav: "",
-            currentPatientChatNav: ""
+            currentPatientChatNav: "",
+            currentMedAssitNav: "",
+            chatId: ""
         }
     },
     mutations: {
@@ -50,6 +52,12 @@ export const store = createStore({
         },
         setPatientNavLink(state, payload){
             state.currentPatientChatNav = payload
+        },
+        setMedAssitanceNav(state, payload){
+            state.currentMedAssitNav = payload
+        },
+        setChatId(state, payload){
+            state.chatId = payload
         }
     },
     plugins: [createPersistedState()]

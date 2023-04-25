@@ -5,15 +5,15 @@
                 <strong>FILL UP INCIDENT DETAILS</strong>
                 <br><br>
                 <MDBInput type="text" label="Nature of Incident" wrapperClass="mb-4" 
-                    v-model="formData.natureOfIncident"/>
+                    v-model="formData.natureOfAccident" required/>
                 <MDBInput type="text" label="Name of patient" wrapperClass="mb-4" 
-                    v-model="formData.nameOfPatient"/>
+                    v-model="formData.nameOfPatient" required/>
                 <MDBInput type="number" label="Contact Number" wrapperClass="mb-4" 
-                    v-model="formData.contactNumber"/>
+                    v-model="formData.contactNumber" required/>
                 <MDBRow>
                     <MDBCol>
                         <MDBInput type="text" label="Location of Incident" wrapperClass="mb-4" 
-                            v-model="formData.location"/>
+                            v-model="formData.location" required/>
                     </MDBCol>
                     <MDBCol>
                         <MDBInput type="text" label="Landmarks" wrapperClass="mb-4" 
@@ -25,30 +25,44 @@
                 <br>
                 <MDBRow>
                     <MDBCol>
-                        <MDBBtn color="primary" type="submit">REQUEST ASSISTANCE</MDBBtn>
+                        <MDBBtn v-if="chatroomId === ''" color="primary" @click="ToChatRoom">REQUEST ASSISTANCE</MDBBtn>
+                        <MDBSpinner v-else />
                     </MDBCol>
                     <MDBCol>
                         <MDBBtn color="success" @click="ExistingChat">GO TO EXISTING CHAT</MDBBtn>
                     </MDBCol>
                 </MDBRow>
             </form>
+            <br>
+            <div v-if="chatroomId !== ''" class="text-center">
+                <strong>Your chatroom ID is {{ chatroomId }}</strong> <MDBBtn color="warning" size="sm">
+                    <MDBIcon fas class="fa-clipboard-list" />
+                </MDBBtn>
+                <br><strong>Please take note of your chatroom ID for future reference</strong>
+                <br><strong>Awaiting request confirmation</strong>
+            </div>
         </div>
     </MDBContainer>
 </template>
 
 <script>
-import { MDBContainer, MDBInput, MDBBtn, MDBRow, MDBCol } from 'mdb-vue-ui-kit';
+import { MDBContainer, MDBInput, MDBBtn, MDBRow, MDBCol, MDBSpinner, MDBIcon } from 'mdb-vue-ui-kit';
 import {useToast} from 'vue-toast-notification';
+import { mapMutations } from 'vuex';
 export default{
     name: 'PatientForm',
+    props:{
+        chatroomId: String
+    },
     data(){
         return{
             formData: {
-                natureOfIncident: "",
+                natureOfAccident: "",
                 nameOfPatient: "",
                 contactNumber: "",
                 location: "",
-                landmarks: ""
+                landmarks: "",
+                status: "NOT YET APPROVE"
             },
             roomID: "",
             toast: useToast(),
@@ -59,9 +73,12 @@ export default{
         MDBInput,
         MDBBtn,
         MDBRow,
-        MDBCol
+        MDBCol,
+        MDBSpinner,
+        MDBIcon
     },
     methods:{
+        ...mapMutations(["setPatientNavLink"]),
         async ExistingChat(){
             if (this.roomID === ""){
                 this.toast.open({
@@ -73,6 +90,20 @@ export default{
                 })
                 return;
             }
+        },
+        async ToChatRoom(){
+            if (this.formData.natureOfIncident === "" || this.formData.nameOfPatient === "" ||
+                this.formData.contactNumber === "" || this.formData.location === ""){
+                    this.toast.open({
+                        message: "Please fill up the form first",
+                        type: 'error',
+                        position: 'top',
+                        duration: 3000,
+                        dismissible: true
+                    })
+                return;
+            }
+            this.$emit("requestChat", this.formData)
         }
     }
 }

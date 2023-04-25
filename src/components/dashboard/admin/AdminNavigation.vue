@@ -114,6 +114,7 @@
         <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
         :class="{'sidebar-active-link': currentSideBar == 'assistance'}" 
         @click="() => {
+          setMedAssitanceNav('list')
           setSidebarLink('assistance')
         }">
             <div class="sidebar-icon-container">
@@ -283,7 +284,7 @@ export default{
         }
     },
     methods: {
-        ...mapMutations(["setSidebarLink", "setSubLink"]),
+        ...mapMutations(["setSidebarLink", "setSubLink", "setMedAssitanceNav"]),
         SidebarToggle(){
           this.$emit('sidebarToggle')
         },

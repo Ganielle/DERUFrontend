@@ -3,7 +3,7 @@ import { ref } from 'vue'
 export const Hospitals = () => {
     const hospitalValues = ref({
         hospitalCount: 0,
-        listValues: []
+        listValues: ""
     })
 
     const hospitalProcessing = ref({

@@ -50,6 +50,7 @@
                 </div>
                 <div v-else-if="currentSideBar === 'assistance'">
                     <MedicalAssistance />
+                    
                 </div>
             </MDBContainer>
         </main>
@@ -71,6 +72,7 @@ import CreateUsers from '@/components/dashboard/admin/AdminCreateUser.vue';
 import ReferralManage from '@/components/dashboard/admin/AdminReferralManage.vue'
 import PCRReport from '@/components/dashboard/admin/AdminPCRList.vue'
 import MedicalAssistance from '@/components/dashboard/admin/AdminMedicalAssistance.vue'
+
 export default{
     name: 'AdminDashboard',
     data() {
@@ -98,7 +100,7 @@ export default{
         MDBIcon
     },
     computed:{
-        ...mapState(["currentSideBar"])
+        ...mapState(["currentSideBar", "currentMedAssitNav"])
     },
     methods: {
         ToggleSidebar(){
