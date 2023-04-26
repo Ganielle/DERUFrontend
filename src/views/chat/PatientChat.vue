@@ -7,6 +7,9 @@
         <div v-if="currentPatientChatNav === 'form'" class="centerpanel">
             <PatientForm @requestChat="GoChat" :chatroomId="createdRoomId"/>
         </div>
+        <div v-else-if="currentPatientChatNav === 'chat'" class="centerpanel">
+            <Chatbox :patient="true" :patientName="formData.nameOfPatient" />
+        </div>
     </div>
     
 </template>
@@ -18,6 +21,7 @@ import { socket } from '@/socket'
 import PatientForm from '@/components/patient/ChatFillupForm.vue'
 import { Room } from '@/modules/room'
 import {useToast} from 'vue-toast-notification';
+import Chatbox from '@/components/dashboard/cards/Chatbox.vue'
 export default{
     name: 'PatientChat',
     data(){
@@ -30,13 +34,14 @@ export default{
     },
     components:{
         PatientForm,
-        MDBBtn
+        MDBBtn,
+        Chatbox
     },
     computed:{
         ...mapState(["currentPatientChatNav"])
     },
     methods: {
-        ...mapMutations(["setPatientNavLink"]),
+        ...mapMutations(["setPatientNavLink", "setChatId", "setChatPatientName"]),
         async GoChat(formData){
             this.formData = formData
 
@@ -59,7 +64,14 @@ export default{
                     if (data.message === "success"){
                         socket.emit("join_room", { roomId: this.roomValues?.createdRoom?._id, 
                             name: formData.nameOfPatient })
-                        socket.on("joined-room", (data) => console.log(data))
+                        socket.on("response-approve-chat", (data) => {
+                            if (data.message === "success" && data.data === "active"){
+                                this.setChatPatientName(this.formData.nameOfPatient)
+                                this.setChatId(this.createdRoomId)
+                                this.setPatientNavLink('chat')
+                            }
+                        })
+
                     }
                 })
             }

@@ -2,7 +2,8 @@ import { ref } from 'vue'
 
 export const PCR = () => {
     const pcrValues = ref({
-        pcrHistory: []
+        pcrHistory: [],
+        totalPCR: 0
     })
 
     const pcrProcessing = ref({
@@ -19,6 +20,16 @@ export const PCR = () => {
     const pcrResponse = ref({
         saveResponse: "",
     })
+
+    const GetPCRCount = async () =>{
+
+        await fetch(process.env.VUE_APP_API_URL + "pcr/count")
+        .then(res => res.json())
+        .then(data => {
+            pcrValues.value.totalPCR = data.data
+        })
+        .catch(err => console.log(err))
+    }
 
     const GetPCR = async () => {
         pcrProcessing.value.gettingData = true
@@ -90,6 +101,7 @@ export const PCR = () => {
         pcrValues,
         SavePCR,
         GetPCR,
-        EditPCR
+        EditPCR,
+        GetPCRCount
     }
 }

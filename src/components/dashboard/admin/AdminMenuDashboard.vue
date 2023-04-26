@@ -7,7 +7,7 @@
                     <StatusCards :process="processing.gettingData" title="Total # of Users" :value="values.userCount" />
                     <StatusCards :process="hospitalProcessing.gettingData" title="Total # of Hospitals"
                         :value="hospitalValues.hospitalCount" />
-                    <StatusCards title="Total # of Reports" value="0" />
+                    <StatusCards title="Total # of Reports" :value="pcrValues.totalPCR" />
                 </MDBRow>
             </MDBContainer>
         </MDBContainer>
@@ -21,6 +21,7 @@ import DashboardBreadcrumbs from '@/components/dashboard/DashboardBreadcrumbs.vu
 import StatusCards from '@/components/dashboard/cards/StatusCards.vue';
 import { Users } from '../../../modules/Users'
 import { Hospitals } from '../../../modules/hospital'
+import { PCR } from '@/modules/pcr'
 export default{
     name: 'AdminDashboardMenu',
     components: {
@@ -34,13 +35,17 @@ export default{
         const { values, processing, CountUsers} = Users()
         const { hospitalValues, hospitalProcessing, CountHospitals } = Hospitals()
 
+        const { pcrValues, GetPCRCount } = PCR()
+
         onMounted (() => {
             CountUsers()
             CountHospitals()
+            GetPCRCount()
         })
 
         return { values, processing, CountUsers,
-            hospitalValues, hospitalProcessing, CountHospitals}
+            hospitalValues, hospitalProcessing, CountHospitals,
+            pcrValues, GetPCRCount }
     }
 }
 </script>

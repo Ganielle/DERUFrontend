@@ -204,13 +204,11 @@ export default{
         ...mapMutations(["setMedAssitanceNav", "setChatId"]),
         ConnectToLobby(){
             socket.connect();
-            socket.on('connect', () => {
-                socket.emit("join_lobby", { roomId: "lobby"})
-                socket.on("create-room-data", (data) => {
-                    if (data.message === "success"){
-                        this.GetRooms();
-                    }
-                })
+            socket.emit("join_lobby", { roomId: "lobby"})
+            socket.on("create-room-data", (data) => {
+                if (data.message === "success"){
+                    this.GetRooms();
+                }
             })
         },
         AcceptModal(){

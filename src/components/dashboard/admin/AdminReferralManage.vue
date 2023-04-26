@@ -794,7 +794,7 @@
                     </MDBCol>
                     <MDBCol v-if="formData.vitalSigns.length > 1" md="3" class="py-2">
                         <MDBBtn color="danger" style="float: left; width: 100%"
-                        @click="(() => vitalSigns.pop())">REMOVE VITAL SIGNS FORM</MDBBtn>
+                        @click="(() => formData.vitalSigns.pop())">REMOVE VITAL SIGNS FORM</MDBBtn>
                     </MDBCol>
                 </MDBRow>
                 <br>

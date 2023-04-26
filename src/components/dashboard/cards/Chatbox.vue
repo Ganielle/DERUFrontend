@@ -13,6 +13,7 @@
                                 <div class="left-chat px-2">
                                     <p>{{ dataVal.sender }}:</p>
                                     <p>{{ dataVal.content }}</p>
+                                    <p>sent: {{ dataVal.time }}</p>
                                 </div>
                             </MDBCol>
                             <MDBCol v-else>
@@ -69,7 +70,7 @@ export default{
         }
     },
     computed:{
-        ...mapState(["chatId"])
+        ...mapState(["chatId", "chatPatientName"])
     },
     components:{
         MDBContainer,
@@ -91,7 +92,7 @@ export default{
                     this.formData.sender = auth.fname
                 }
                 else{
-                    this.formData.sender = this.patientName
+                    this.formData.sender = this.chatPatientName
                 }
                 await this.GetHistory(this.chatId)
 
@@ -101,12 +102,10 @@ export default{
                 this.$refs.parentChat.scrollTop = this.$refs.parentChat.scrollHeight;
 
                 socket.connect();
-                socket.on('connect', () => {
-                    socket.emit("join_lobby", { roomId: this.chatId, name: this.formData.sender})
-                    socket.on("receive-message", (data) => {
-                        console.log(data)
-                        this.history.push(data)
-                    })
+                socket.emit("join_lobby", { roomId: this.chatId, name: this.formData.sender})
+                console.log("lobby joined")
+                socket.on("receive-message", (data) => {
+                    this.history.push(data.data)
                 })
             }
         },

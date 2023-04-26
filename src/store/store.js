@@ -12,7 +12,8 @@ export const store = createStore({
             currentSubNav: "",
             currentPatientChatNav: "",
             currentMedAssitNav: "",
-            chatId: ""
+            chatId: "",
+            chatPatientName: ""
         }
     },
     mutations: {
@@ -58,6 +59,9 @@ export const store = createStore({
         },
         setChatId(state, payload){
             state.chatId = payload
+        },
+        setChatPatientName(state, payload){
+            state.chatPatientName = payload
         }
     },
     plugins: [createPersistedState()]
