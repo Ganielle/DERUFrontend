@@ -48,6 +48,23 @@ export const PCR = () => {
         })
     }
 
+    const GetSelfPCR = async (id) => {
+        pcrProcessing.value.gettingData = true
+
+        await fetch(process.env.VUE_APP_API_URL + "pcr/"+ id + "/self/?page=" + pcrPagination.value.currentPage + 
+        "&limit=" + pcrPagination.value.pageLimit)
+        .then(res => res.json())
+        .then(data => {
+            pcrPagination.value.totalPages = data.pages
+            pcrValues.value.pcrHistory = data.data
+            pcrProcessing.value.gettingData = false
+        })
+        .catch(() => {
+            pcrProcessing.value.savingData = false;
+            pcrResponse.value.saveResponse = "failed"
+        })
+    }
+
     const SavePCR = async (data) => {
         pcrProcessing.value.savingData = true;
         const requestOptions = {
@@ -102,6 +119,7 @@ export const PCR = () => {
         SavePCR,
         GetPCR,
         EditPCR,
-        GetPCRCount
+        GetPCRCount,
+        GetSelfPCR
     }
 }

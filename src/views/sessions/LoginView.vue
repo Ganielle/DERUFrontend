@@ -8,6 +8,7 @@
 
 <script>
 import LoginPanel from '@/components/sessions/LoginPanel.vue'
+import { mapMutations } from "vuex";
 
 export default {
     name: 'LoginView',
@@ -15,12 +16,26 @@ export default {
         LoginPanel
     },
     methods: {
+      ...mapMutations(["restartDashboardLink"]),
       CheckToken(){
         const auth = JSON.parse(localStorage.getItem("userCreds"))
 
         if (auth){
           if (auth.roleId._id === process.env.VUE_APP_ADMINISTRATOR_ID){
+            this.restartDashboardLink("dashboard")
             this.$router.push({name: "adminDashboard"})
+          }
+          else if (auth.roleId._id === process.env.VUE_APP_RESCUE_TEAM_ID){
+            this.restartDashboardLink("hospitalmanage")
+            this.$router.push({name: 'responseTeam'})
+          }
+          else if (auth.roleId._id === process.env.VUE_APP_RHU_ID){
+            this.restartDashboardLink("pcr")
+            this.$router.push({name: 'ruralTeam'})
+          }
+          else if (auth.roleId._id === process.env.VUE_APP_HEALTHCARE_STAFF){
+            this.restartDashboardLink("pcr")
+            this.$router.push({name: 'hospitalTeam'})
           }
         }
       }

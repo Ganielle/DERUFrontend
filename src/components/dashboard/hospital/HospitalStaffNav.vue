@@ -13,11 +13,11 @@
           <img src="../../../assets/deru.png" alt="logo" class="img-fluid w-50" />
         </div>
         <div class="text-center pt-3">
-            <!-- <h4>RESPONSE TEAEM</h4> -->
+            <!-- <h4>ADMIN</h4> -->
         </div>
       </div>
       <div class="sidebar-body flex-grow-1">
-        <!--HOSPITAL MANAGEMENT ITEM-->
+        <!--NAV ITEM-->
         <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer" 
         :class="{'sidebar-active-link': currentSideBar == 'variant' || currentSideBar == 'hospitalmanage'}"
         @click="() => {
@@ -43,7 +43,7 @@
             </div>
         
         </div>
-        <!--HOSPITAL MANAGEMENT SUB ITEM-->
+        <!--SUB ITEM-->
         <div class="sidebar-sub-link" :class="{
           'sidebar-sub-link-active': subToggle && currentSubNav === 'hospitalmanagement'}">
                 <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3 false"
@@ -61,19 +61,6 @@
             </div>
         <!--NAV ITEM-->
         <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
-        :class="{'sidebar-active-link': currentSideBar == 'referralmanage'}" 
-        @click="() => {
-          setSidebarLink('referralmanage')
-        }">
-            <div class="sidebar-icon-container">
-                <MDBIcon fas icon="chart-bar" size="xl" title="REFERRAL" />
-              </div>
-            <div class="flex-grow-1 sidebar-link-header-title">
-                REFERRAL MANAGEMENT
-            </div>
-        </div>
-        <!--NAV ITEM-->
-        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
         :class="{'sidebar-active-link': currentSideBar == 'pcr'}" 
         @click="() => {
           setSidebarLink('pcr')
@@ -83,20 +70,6 @@
               </div>
             <div class="flex-grow-1 sidebar-link-header-title">
                 PCR REPORT MANAGEMENT
-            </div>
-        </div>
-        <!--NAV ITEM-->
-        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
-        :class="{'sidebar-active-link': currentSideBar == 'assistance'}" 
-        @click="() => {
-          setMedAssitanceNav('list')
-          setSidebarLink('assistance')
-        }">
-            <div class="sidebar-icon-container">
-                <MDBIcon fas icon="comment" size="xl" title="PRC" />
-              </div>
-            <div class="flex-grow-1 sidebar-link-header-title">
-                MEDICAL ASSISTANCE
             </div>
         </div>
     </div>
@@ -138,7 +111,7 @@ import { MDBBtn, MDBIcon, MDBModal, MDBModalHeader,
     MDBModalBody, MDBModalFooter, MDBModalTitle } from 'mdb-vue-ui-kit';
 import {useToast} from 'vue-toast-notification';
 export default{
-    name: 'ResponseTeamNavigation',
+    name: 'HospitalNavigation',
     props:{
       didToggle: Boolean,
       subToggle: Boolean

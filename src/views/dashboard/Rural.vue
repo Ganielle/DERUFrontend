@@ -15,20 +15,11 @@
         <main class="d-flex main-container"
         :style="{paddingLeft: innerWidth > 768 ? didToggle ? innerWidth < 768 ?
             '0rem' : '4.5rem' : '20rem' : '0rem'}">
-            <ResponseTeamNavigation :didToggle="didToggle" :subToggle="subToggle" @sidebarToggle="ToggleSidebar" 
+            <RuralNavi :didToggle="didToggle" :subToggle="subToggle" @sidebarToggle="ToggleSidebar" 
                 @sideSubToggle="SideSubToggle"/>
             <MDBContainer fluid class="px-0 py-5 fill-space">
-                <div v-if="currentSideBar === 'hospitalmanage'">
-                    <ResponseTeamHospital />
-                </div>
-                <div v-else-if="currentSideBar === 'referralmanage'">
-                    <ResponseTeamReferral />
-                </div>
-                <div v-else-if="currentSideBar === 'pcr'">
+                <div v-if="currentSideBar === 'pcr'">
                     <PCRReport />
-                </div>
-                <div v-else-if="currentSideBar === 'assistance'">
-                    <MedicalAssistance />
                 </div>
             </MDBContainer>
         </main>
@@ -38,14 +29,11 @@
 <script>
 import { mapState } from 'vuex';
 import { MDBContainer, MDBIcon } from 'mdb-vue-ui-kit';
-import ResponseTeamNavigation from '@/components/dashboard/ResponseTeam/ResponseTeamNav.vue';
-import ResponseTeamHospital from '@/components/dashboard/ResponseTeam/ResponseTeamHospitalManage.vue';
-import ResponseTeamReferral from '@/components/dashboard/ResponseTeam/ResponseTeamReferral.vue'
+import RuralNavi from '@/components/dashboard/rural/RuralNav.vue';
 import PCRReport from '@/components/dashboard/admin/AdminPCRList.vue'
-import MedicalAssistance from '@/components/dashboard/admin/AdminMedicalAssistance.vue'
 
 export default{
-    name: 'ResponseTeamDashboard',
+    name: 'RuralDashboard',
     data() {
         return{
             currentLink: this.currentSideBar,
@@ -55,11 +43,8 @@ export default{
         }
     },
     components: {
-        ResponseTeamNavigation,
-        ResponseTeamHospital,
-        ResponseTeamReferral,
+        RuralNavi,
         PCRReport,
-        MedicalAssistance,
         MDBContainer,
         MDBIcon
     },

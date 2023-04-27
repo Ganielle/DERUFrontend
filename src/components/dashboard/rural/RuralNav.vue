@@ -13,65 +13,10 @@
           <img src="../../../assets/deru.png" alt="logo" class="img-fluid w-50" />
         </div>
         <div class="text-center pt-3">
-            <!-- <h4>RESPONSE TEAEM</h4> -->
+            <!-- <h4>ADMIN</h4> -->
         </div>
       </div>
       <div class="sidebar-body flex-grow-1">
-        <!--HOSPITAL MANAGEMENT ITEM-->
-        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer" 
-        :class="{'sidebar-active-link': currentSideBar == 'variant' || currentSideBar == 'hospitalmanage'}"
-        @click="() => {
-          setSubLink('hospitalmanagement')
-          SubItemToggle()
-        }">
-            <div class="sidebar-icon-container">
-                <MDBIcon fas icon="book-medical" size="xl" title="MANAGEMENT" />
-              </div>
-            <div class="flex-grow-1 sidebar-link-header-title">
-                HOSPITAL MANAGEMENT
-            </div>
-            <div class="mx-3">
-                <div v-if="!subToggle && currentSubNav === 'hospitalmanagement'">
-                  <MDBIcon fas icon="angle-down" size="lg" />
-                </div>
-                <div v-else-if="subToggle && currentSubNav === 'hospitalmanagement'">
-                  <MDBIcon fas icon="angle-up" size="lg" />
-                </div>
-                <div v-else>
-                  <MDBIcon fas icon="angle-down" size="lg" />
-                </div>
-            </div>
-        
-        </div>
-        <!--HOSPITAL MANAGEMENT SUB ITEM-->
-        <div class="sidebar-sub-link" :class="{
-          'sidebar-sub-link-active': subToggle && currentSubNav === 'hospitalmanagement'}">
-                <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3 false"
-                  @click="() => {
-                    setSidebarLink('hospitalmanage')
-                  }"
-                  :class="{'sidebar-active-link': currentSideBar == 'hospitalmanage'}">
-                    <div class="mx-3">
-                        <MDBIcon fas icon="angle-right" size="sm" />
-                    </div>
-                    <div class="flex-grow-1 sidebar-sublink-header-title">
-                        Manage
-                    </div>
-                </div>
-            </div>
-        <!--NAV ITEM-->
-        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
-        :class="{'sidebar-active-link': currentSideBar == 'referralmanage'}" 
-        @click="() => {
-          setSidebarLink('referralmanage')
-        }">
-            <div class="sidebar-icon-container">
-                <MDBIcon fas icon="chart-bar" size="xl" title="REFERRAL" />
-              </div>
-            <div class="flex-grow-1 sidebar-link-header-title">
-                REFERRAL MANAGEMENT
-            </div>
-        </div>
         <!--NAV ITEM-->
         <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
         :class="{'sidebar-active-link': currentSideBar == 'pcr'}" 
@@ -83,20 +28,6 @@
               </div>
             <div class="flex-grow-1 sidebar-link-header-title">
                 PCR REPORT MANAGEMENT
-            </div>
-        </div>
-        <!--NAV ITEM-->
-        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
-        :class="{'sidebar-active-link': currentSideBar == 'assistance'}" 
-        @click="() => {
-          setMedAssitanceNav('list')
-          setSidebarLink('assistance')
-        }">
-            <div class="sidebar-icon-container">
-                <MDBIcon fas icon="comment" size="xl" title="PRC" />
-              </div>
-            <div class="flex-grow-1 sidebar-link-header-title">
-                MEDICAL ASSISTANCE
             </div>
         </div>
     </div>
@@ -138,7 +69,7 @@ import { MDBBtn, MDBIcon, MDBModal, MDBModalHeader,
     MDBModalBody, MDBModalFooter, MDBModalTitle } from 'mdb-vue-ui-kit';
 import {useToast} from 'vue-toast-notification';
 export default{
-    name: 'ResponseTeamNavigation',
+    name: 'RuralNavi',
     props:{
       didToggle: Boolean,
       subToggle: Boolean

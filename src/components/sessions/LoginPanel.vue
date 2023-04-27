@@ -98,12 +98,21 @@ export default{
                     duration: 3000,
                     dismissible: true
                 })
-                this.restartDashboardLink("dashboard")
                 if (this.response.role === process.env.VUE_APP_ADMINISTRATOR_ID){
+                    this.restartDashboardLink("dashboard")
                     this.$router.push({name: "adminDashboard"})
                 }
                 else if (this.response.role === process.env.VUE_APP_RESCUE_TEAM_ID){
-                    
+                    this.restartDashboardLink("hospitalmanage")
+                    this.$router.push({name: 'responseTeam'})
+                }
+                else if (this.response.role === process.env.VUE_APP_RHU_ID){
+                    this.restartDashboardLink("pcr")
+                    this.$router.push({name: 'ruralTeam'})
+                }
+                else if (this.response.role === process.env.VUE_APP_HEALTHCARE_STAFF){
+                    this.restartDashboardLink("pcr")
+                    this.$router.push({name: 'hospitalTeam'})
                 }
             }
             else{

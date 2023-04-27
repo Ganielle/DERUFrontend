@@ -29,6 +29,21 @@ const routes = [
     path: '/patient/medicalassistance',
     name: 'medicalAssistance',
     component: () => import('../views/chat/PatientChat.vue')
+  },
+  {
+    path: '/dashboard/responseteam',
+    name: 'responseTeam',
+    component: () => import("../views/dashboard/RescuTeam.vue")
+  },
+  {
+    path: '/dashboard/ruralteam',
+    name: 'ruralTeam',
+    component: () => import("../views/dashboard/Rural.vue")
+  },
+  {
+    path: '/dashboard/hospitalteam',
+    name: 'hospitalTeam',
+    component: () => import("../views/dashboard/HospitalStaff.vue")
   }
 ]
 
