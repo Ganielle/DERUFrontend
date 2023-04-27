@@ -21,6 +21,9 @@
                 <div v-if="currentSideBar === 'pcr'">
                     <HospitalPCR/>
                 </div>
+                <div v-if="currentSideBar === 'hospitalmanage'">
+                    <HospitalStaffManage />
+                </div>
             </MDBContainer>
         </main>
     </MDBContainer>
@@ -31,6 +34,7 @@ import { mapState } from 'vuex';
 import { MDBContainer, MDBIcon } from 'mdb-vue-ui-kit';
 import HospitalNavigation from '@/components/dashboard/hospital/HospitalStaffNav.vue';
 import HospitalPCR from '@/components/dashboard/hospital/HospitalStaffPCR.vue'
+import HospitalStaffManage from '@/components/dashboard/hospital/HospitalStaffManage.vue'
 
 export default{
     name: 'HospitalDashboard',
@@ -46,6 +50,7 @@ export default{
         HospitalNavigation,
         HospitalPCR,
         MDBContainer,
+        HospitalStaffManage,
         MDBIcon
     },
     computed:{

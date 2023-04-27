@@ -37,6 +37,7 @@
                         <th scope="col" class="table-dark">HOSPITAL NAME</th>
                         <th scope="col" class="table-dark">CONTACT NUMBER</th>
                         <th scope="col" class="table-dark">ADDRESS</th>
+                        <th scope="col" class="table-dark">HOSPITAL CAPABILITIES</th>
                         <th scope="col" class="table-dark">REGULAR BEDS</th>
                         <th scope="col" class="table-dark">COVID BEDS</th>
                         <th scope="col"  class="table-dark">ACTION</th>
@@ -62,6 +63,10 @@
                         </td>
                         <td scope="row">
                             <strong>{{ dataVals.address }}</strong>
+                        </td>
+                        <td scope="row">
+                            <strong v-for="(capabilities, index) in dataVals.variance" :key="capabilities">
+                                {{ capabilities.display_name }}<span v-if="index < dataVals.variance.length">, </span></strong>
                         </td>
                         <td scope="row">
                             <strong>{{ dataVals.regularBeds }}</strong>

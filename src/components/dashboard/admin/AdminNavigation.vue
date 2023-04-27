@@ -80,7 +80,7 @@
                         <MDBIcon fas icon="angle-right" size="sm" />
                     </div>
                     <div class="flex-grow-1 sidebar-sublink-header-title">
-                        Variants
+                      Hospital Capabilities
                     </div>
                 </div>
             </div>

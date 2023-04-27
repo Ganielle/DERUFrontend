@@ -1,13 +1,13 @@
 <template>
-    <DashboardBreadcrumbs breadcrumbs="HOSPITAL MANAGEMENT / VARIANTS" />
+    <DashboardBreadcrumbs breadcrumbs="HOSPITAL MANAGEMENT / HOSPITAL CAPABILITIES" />
     <MDBContainer class="px-0">
         <div class="list-title-bg">
-            <div class="list-title">VARIANT LIST</div>
+            <div class="list-title">HOSPITAL CAPABILITIES LIST</div>
         </div>
         
         <div class="add-variant-btn">
             <MDBBtn @click="openModal = true" color="primary" class="mb-4">
-                ADD HOSPITAL VARIANTS
+                ADD HOSPITAL CAPABILITIES
             </MDBBtn>
         </div>
 
@@ -134,11 +134,11 @@
         centered
     >
         <MDBModalHeader>
-            <MDBModalTitle id="exampleModalScrollableTitle"> DELETE HOSPITAL VARIANT </MDBModalTitle>
+            <MDBModalTitle id="exampleModalScrollableTitle"> DELETE HOSPITAL CAPABILITIES </MDBModalTitle>
         </MDBModalHeader>
         <form  v-on:submit.prevent="onSubmit">
             <MDBModalBody> 
-                <strong>Are you sure you want to delete this variant?</strong>
+                <strong>Are you sure you want to delete this hospital capabilities?</strong>
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="secondary" @click="openDelete = false"> Close </MDBBtn>

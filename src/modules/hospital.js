@@ -40,6 +40,21 @@ export const Hospitals = () => {
         }
     }
 
+    const FindHospital = async (id) => {
+        hospitalProcessing.value.listingData = true
+
+        await fetch(process.env.VUE_APP_API_URL + "hospitals/" + id + "/find")
+        .then(res => res.json())
+        .then(data => {
+            hospitalValues.value.listValues = data
+            hospitalProcessing.value.listingData = false
+        })
+        .catch(() => {
+            response.value.createAccountResponse = "failed"
+            hospitalProcessing.value.listingData = false
+        })
+    }
+
     const ListHospitals = async () => {
         hospitalProcessing.value.listingData = true
 
@@ -51,6 +66,27 @@ export const Hospitals = () => {
             response.value.listResponse = data.message
             pagination.value.totalPage = data.pages
             hospitalProcessing.value.listingData = false
+        })
+        .catch(() => response.value.createAccountResponse = "failed")
+    }
+
+    const UpdateHospital = async () => {
+        hospitalProcessing.value.approve = true
+        const data = hospitalValues.value.listValues
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                data
+            })
+        }
+        await fetch(process.env.VUE_APP_API_URL + "hospitals/" + data._id + "/update", requestOptions)
+        .then(res => res.json())
+        .then(data => {
+            response.value.approveResponse = data.message
+            hospitalProcessing.value.approve = false
         })
         .catch(() => response.value.createAccountResponse = "failed")
     }
@@ -116,6 +152,8 @@ export const Hospitals = () => {
             ListHospitals,
             ApproveHospital,
             ListApproveHospitals,
-            ShowCurrentHospital
+            ShowCurrentHospital,
+            FindHospital,
+            UpdateHospital
         }
 }
