@@ -13,11 +13,11 @@
           <img src="../../../assets/deru.png" alt="logo" class="img-fluid w-50" />
         </div>
         <div class="text-center pt-3">
-            <!-- <h4>ADMIN</h4> -->
+            <!-- <h4>RESPONSE TEAEM</h4> -->
         </div>
       </div>
       <div class="sidebar-body flex-grow-1">
-        <!--NAV ITEM-->
+        <!--HOSPITAL MANAGEMENT ITEM-->
         <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer" 
         :class="{'sidebar-active-link': currentSideBar == 'variant' || currentSideBar == 'hospitalmanage'}"
         @click="() => {
@@ -43,7 +43,7 @@
             </div>
         
         </div>
-        <!--SUB ITEM-->
+        <!--HOSPITAL MANAGEMENT SUB ITEM-->
         <div class="sidebar-sub-link" :class="{
           'sidebar-sub-link-active': subToggle && currentSubNav === 'hospitalmanagement'}">
                 <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3 false"
@@ -58,7 +58,7 @@
                         Manage
                     </div>
                 </div>
-                <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3"
+                <!-- <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3"
                 @click="() => {
                     setSidebarLink('variant')
                   }"
@@ -69,7 +69,7 @@
                     <div class="flex-grow-1 sidebar-sublink-header-title">
                         Variants
                     </div>
-                </div>
+                </div> -->
             </div>
         <!--NAV ITEM-->
         <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
@@ -111,97 +111,6 @@
                 MEDICAL ASSISTANCE
             </div>
         </div>
-        <!--NAV ITEM-->
-        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
-        :class="{'sidebar-active-link': currentSideBar === 'manageprovider' || currentSideBar === 'create'
-        || currentSideBar === 'rescue' || currentSideBar === 'provider' || currentSideBar === 'rural' }"
-        @click="() => {
-          setSubLink('usermanagement')
-          SubItemToggle()
-        }">
-        
-            <div class="sidebar-icon-container">
-                <MDBIcon fas icon="circle-user" size="xl" title="USER" />
-              </div>
-            <div class="flex-grow-1 sidebar-link-header-title">
-                USER MANAGEMENT
-            </div>
-            <div class="mx-3">
-                <div v-if="!subToggle && currentSubNav === 'usermanagement'">
-                  <MDBIcon fas icon="angle-down" size="lg" />
-                </div>
-                <div v-else-if="subToggle && currentSubNav === 'usermanagement'">
-                  <MDBIcon fas icon="angle-up" size="lg" />
-                </div>
-                <div v-else>
-                  <MDBIcon fas icon="angle-down" size="lg" />
-                </div>
-            </div>
-        </div>
-        <!--SUB ITEM-->
-        <div class="sidebar-sub-link" :class="{
-          'sidebar-sub-link-active': subToggle && currentSubNav === 'usermanagement'}">
-                <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3 false"
-                  @click="() => {
-                    setSidebarLink('manageprovider')
-                  }"
-                  :class="{'sidebar-active-link': currentSideBar == 'manageprovider'}">
-                    <div class="mx-3">
-                        <MDBIcon fas icon="angle-right" size="sm" />
-                    </div>
-                    <div class="flex-grow-1 sidebar-sublink-header-title">
-                        Manage Healthcare Accounts
-                    </div>
-                </div>
-                <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3"
-                @click="() => {
-                    setSidebarLink('rescue')
-                  }"
-                  :class="{'sidebar-active-link': currentSideBar == 'rescue'}">
-                    <div class="mx-3">
-                        <MDBIcon fas icon="angle-right" size="sm" />
-                    </div>
-                    <div class="flex-grow-1 sidebar-sublink-header-title">
-                        Rescue Team Staff List
-                    </div>
-                </div>
-                <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3"
-                @click="() => {
-                    setSidebarLink('provider')
-                  }"
-                  :class="{'sidebar-active-link': currentSideBar == 'provider'}">
-                    <div class="mx-3">
-                        <MDBIcon fas icon="angle-right" size="sm" />
-                    </div>
-                    <div class="flex-grow-1 sidebar-sublink-header-title">
-                        Healthcare Provider Staff List
-                    </div>
-                </div>
-                <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3"
-                @click="() => {
-                    setSidebarLink('rural')
-                  }"
-                  :class="{'sidebar-active-link': currentSideBar == 'rural'}">
-                    <div class="mx-3">
-                        <MDBIcon fas icon="angle-right" size="sm" />
-                    </div>
-                    <div class="flex-grow-1 sidebar-sublink-header-title">
-                        Rural Health Unit Staff List
-                    </div>
-                </div>
-                <div class="d-flex align-items-center py-1 my-1 sidebar-link-header ms-3"
-                @click="() => {
-                    setSidebarLink('create')
-                  }"
-                  :class="{'sidebar-active-link': currentSideBar == 'create'}">
-                    <div class="mx-3">
-                        <MDBIcon fas icon="angle-right" size="sm" />
-                    </div>
-                    <div class="flex-grow-1 sidebar-sublink-header-title">
-                        Create User Accounts
-                    </div>
-                </div>
-            </div>
     </div>
       <div class="sidebar-footer py-3">
         <div

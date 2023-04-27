@@ -102,6 +102,9 @@ export default{
                 if (this.response.role === process.env.VUE_APP_ADMINISTRATOR_ID){
                     this.$router.push({name: "adminDashboard"})
                 }
+                else if (this.response.role === process.env.VUE_APP_RESCUE_TEAM_ID){
+                    
+                }
             }
             else{
                 this.toast.open({
