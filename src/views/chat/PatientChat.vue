@@ -5,7 +5,8 @@
             this.$router.push({name: 'home'})
         }" style="margin-left: 5vw;">RETURN TO LOGIN</MDBBtn>
         <div v-if="currentPatientChatNav === 'form'" class="centerpanel">
-            <PatientForm @requestChat="GoChat" :chatroomId="createdRoomId"/>
+            <PatientForm @requestChat="GoChat" :chatroomId="createdRoomId" 
+            :requestingChat="requesting" @oldChat="GoOldChat"/>
         </div>
         <div v-else-if="currentPatientChatNav === 'chat'" class="centerpanel">
             <Chatbox :patient="true" :patientName="formData.nameOfPatient" />
@@ -20,6 +21,7 @@ import { mapState, mapMutations } from 'vuex';
 import { socket } from '@/socket'
 import PatientForm from '@/components/patient/ChatFillupForm.vue'
 import { Room } from '@/modules/room'
+import { Chat } from '@/modules/chat'
 import {useToast} from 'vue-toast-notification';
 import Chatbox from '@/components/dashboard/cards/Chatbox.vue'
 export default{
@@ -30,6 +32,7 @@ export default{
             createdRoomId: "",
             approve: "",
             toast: useToast(),
+            requesting: false
         }
     },
     components:{
@@ -43,8 +46,8 @@ export default{
     methods: {
         ...mapMutations(["setPatientNavLink", "setChatId", "setChatPatientName"]),
         async GoChat(formData){
+            this.requesting = true
             this.formData = formData
-
             await this.CreateRoom(this.formData)
 
             if (this.roomResponse.saveResponse === "success"){
@@ -60,18 +63,17 @@ export default{
                 socket.emit("create-room", { data: this.formData })
                 socket.emit("leave-lobby")
                 socket.on("leave-lobby-response", (data) => {
-                    console.log("leave room", data)
                     if (data.message === "success"){
                         socket.emit("join_room", { roomId: this.roomValues?.createdRoom?._id, 
                             name: formData.nameOfPatient })
                         socket.on("response-approve-chat", (data) => {
                             if (data.message === "success" && data.data === "active"){
+                                this.requesting = false
                                 this.setChatPatientName(this.formData.nameOfPatient)
                                 this.setChatId(this.createdRoomId)
                                 this.setPatientNavLink('chat')
                             }
                         })
-
                     }
                 })
             }
@@ -83,6 +85,7 @@ export default{
                     duration: 3000,
                     dismissible: true
                 })
+                this.requesting = false
             }
             else{
                 this.toast.open({
@@ -92,9 +95,55 @@ export default{
                     duration: 3000,
                     dismissible: true
                 })
+                this.requesting = false
             }
 
             
+        },
+        async GoOldChat(roomID){
+            this.requesting = true
+            this.createdRoomId = roomID
+            await this.GetHistory(roomID)
+            if (this.chatResponse.getResponse === "success"){
+                socket.emit("join_room", { roomId: roomID, 
+                    name: this.chatValues.chatHistories[0].chatroom_id.nameOfPatient })
+                if (this.chatValues.chatHistories[0].chatroom_id.handler === null ||
+                this.chatValues.chatHistories[0].chatroom_id.handler === undefined){
+                    socket.on("response-approve-chat", (data) => {
+                        if (data.message === "success" && data.data === "active"){
+                            this.requesting = false
+                            this.setChatPatientName(this.chatValues.chatHistories[0].chatroom_id.nameOfPatient)
+                            this.setChatId(roomID)
+                            this.setPatientNavLink('chat')
+                        }
+                    })
+                }
+                else{
+                    this.setChatPatientName(this.chatValues.chatHistories[0].chatroom_id.nameOfPatient)
+                    this.setChatId(roomID)
+                    this.setPatientNavLink('chat')
+                }
+            }
+            else if (this.chatResponse.getResponse === "bad-request"){
+                this.toast.open({
+                    message: "There's a problem with server! Please try again later",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.requesting = false
+            }
+            else{
+                this.toast.open({
+                    message: "There's a problem with network! Please try again later",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                this.requesting = true
+            }
         },
         ConnectToLobby(){
             socket.connect();
@@ -110,8 +159,19 @@ export default{
         const { roomValues, roomProcessing, 
             roomResponse, CreateRoom } = Room()
 
+        const {
+                chatProcessing,
+                chatValues,
+                chatResponse,
+                GetHistory,
+            } = Chat()
+
         return { roomValues, roomProcessing, 
-            roomResponse, CreateRoom }
+            roomResponse, CreateRoom, 
+            chatProcessing,
+                chatValues,
+                chatResponse,
+                GetHistory, }
     }
 }
 </script>

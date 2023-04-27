@@ -25,17 +25,17 @@
                 <br>
                 <MDBRow>
                     <MDBCol>
-                        <MDBBtn v-if="chatroomId === ''" color="primary" @click="ToChatRoom">REQUEST ASSISTANCE</MDBBtn>
-                        <MDBSpinner v-else />
+                        <MDBBtn :hidden="requestingChat" color="primary" @click="ToChatRoom">REQUEST ASSISTANCE</MDBBtn>
                     </MDBCol>
                     <MDBCol>
-                        <MDBBtn color="success" @click="ExistingChat">GO TO EXISTING CHAT</MDBBtn>
+                        <MDBBtn :hidden="requestingChat" color="success" @click="ExistingChat">GO TO EXISTING CHAT</MDBBtn>
                     </MDBCol>
                 </MDBRow>
             </form>
             <br>
-            <div v-if="chatroomId !== ''" class="text-center">
-                <strong>Your chatroom ID is {{ chatroomId }}</strong> <MDBBtn color="warning" size="sm">
+            <div v-if="requestingChat" class="text-center">
+                <strong>Your chatroom ID is {{ chatroomId }}</strong> <MDBBtn color="warning" size="sm"
+                    @click="CopyToClipboard">
                     <MDBIcon fas class="fa-clipboard-list" />
                 </MDBBtn>
                 <br><strong>Please take note of your chatroom ID for future reference</strong>
@@ -46,13 +46,14 @@
 </template>
 
 <script>
-import { MDBContainer, MDBInput, MDBBtn, MDBRow, MDBCol, MDBSpinner, MDBIcon } from 'mdb-vue-ui-kit';
+import { MDBContainer, MDBInput, MDBBtn, MDBRow, MDBCol, MDBIcon } from 'mdb-vue-ui-kit';
 import {useToast} from 'vue-toast-notification';
 import { mapMutations } from 'vuex';
 export default{
     name: 'PatientForm',
     props:{
-        chatroomId: String
+        chatroomId: String,
+        requestingChat: Boolean
     },
     data(){
         return{
@@ -74,7 +75,6 @@ export default{
         MDBBtn,
         MDBRow,
         MDBCol,
-        MDBSpinner,
         MDBIcon
     },
     methods:{
@@ -90,6 +90,18 @@ export default{
                 })
                 return;
             }
+            else if (this.requestingChat){
+                this.toast.open({
+                    message: "There's a current chat request going on! Please wait for a bit to be approve",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                return;
+            }
+
+            this.$emit("oldChat", this.roomID)
         },
         async ToChatRoom(){
             if (this.formData.natureOfIncident === "" || this.formData.nameOfPatient === "" ||
@@ -103,7 +115,38 @@ export default{
                     })
                 return;
             }
+            else if (this.requestingChat){
+                this.toast.open({
+                    message: "There's a current chat request going on! Please wait for a bit to be approve",
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+                return;
+            }
             this.$emit("requestChat", this.formData)
+        },
+        CopyToClipboard(){
+            navigator.clipboard.writeText(this.chatroomId)
+            .then(() => {
+                this.toast.open({
+                    message: "Room ID copied to clipboard!",
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            })
+            .catch((error) => {
+                this.toast.open({
+                    message: "Error copying to clipboard: " + error,
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            })
         }
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <MDBContainer class="px-0">
-        <MDBBtn color="primary">BACK TO LIST</MDBBtn>
+        <MDBBtn @click="LeavingRoom" color="primary">BACK TO LIST</MDBBtn>
         <div class="p-2 bg-light rounded jumbotron">
             <strong>Patient: {{ nameOfPatient }} </strong><br>
             <strong>Handler: {{ handlerName }}  </strong>
@@ -53,7 +53,7 @@ export default{
     name: 'ChatboxAssistance',
     props:{
         patient: Boolean,
-        patientName: String
+        patientName: String,
     },
     data(){
         return{
@@ -81,7 +81,7 @@ export default{
         MDBSpinner
     },
     methods: {
-        ...mapMutations(["setMedAssitanceNav"]),
+        ...mapMutations(["setMedAssitanceNav", "setPatientNavLink"]),
         async CheckChat(){
             if (this.chatId === ''){
                 this.setMedAssitanceNav('list')
@@ -164,6 +164,23 @@ export default{
                     dismissible: true
                 })
             }
+        },
+        LeavingRoom(){
+            socket.emit("leave-room", { roomId: this.chatId })
+                socket.on("leave-room-response", (data) => {
+                    if (data.message === "success"){
+                        //  leave room here
+                        if (this.patient){
+                            this.setPatientNavLink('form')
+                            window.location.reload();
+                        }
+                        else{
+                            this.setMedAssitanceNav('list')
+                            window.location.reload();
+                        }
+                    }
+                })
+            
         }
     },
     created: function(){
