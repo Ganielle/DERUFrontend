@@ -108,7 +108,7 @@
                 <MDBRow>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="Dispatch Time"
                             v-model="formData.dispatchTime"
                             wrapperClass="mb-4"
@@ -116,7 +116,7 @@
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="En route"
                             v-model="formData.enRoute"
                             wrapperClass="mb-4"
@@ -126,7 +126,7 @@
                 <MDBRow>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="At the scene"
                             v-model="formData.atTheScene"
                             wrapperClass="mb-4"
@@ -134,7 +134,7 @@
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="Left the scene"
                             v-model="formData.leftTheScene"
                             wrapperClass="mb-4"
@@ -142,7 +142,7 @@
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="At the Facility"
                             v-model="formData.atTheFacility"
                             wrapperClass="mb-4"
@@ -200,6 +200,7 @@
                             type="date"
                             label="Date of Birth"
                             v-model="formData.dob"
+                            :max="maxDate"
                             wrapperClass="mb-4"
                         />
                     </MDBCol>
@@ -697,7 +698,7 @@
                     <MDBRow>
                         <MDBCol>
                             <MDBInput
-                                type="text"
+                                type="time"
                                 label="Time"
                                 v-model="val.time"
                                 wrapperClass="mb-4"
@@ -967,6 +968,7 @@
                                 label="Receving Facility"
                                 v-model="formData.receivingFacility"
                                 wrapperClass="mb-4"
+                                readonly="true"
                             />
                         </MDBCol>
                         <MDBCol>
@@ -975,6 +977,7 @@
                                 label="Receving Provider"
                                 v-model="formData.receivingProvider"
                                 wrapperClass="mb-4"
+                                readonly="true"
                             />
                         </MDBCol>
                         <MDBCol>
@@ -983,19 +986,21 @@
                                 label="Position"
                                 v-model="formData.position"
                                 wrapperClass="mb-4"
+                                readonly="true"
                             />
                         </MDBCol>
                     </MDBRow>
                     <strong>SIGNATURE</strong>
                     <MDBTextarea label="Additional Information" rows="3" wrapperClass="mb-4"
-                    v-model="formData.signatureAdditionalInfo"/>
+                    v-model="formData.signatureAdditionalInfo" readonly="true"/>
                     <MDBCheckbox
                         label="By Checking this, You're agreeing to everything to the statement above"
                         v-model="formData.agreementPatient"
                         wrapperClass="mb-3 mb-md-0"
+                        disabled
                     />
                     <br>
-                    <MDBInput label="Time" type="text" v-model="formData.signatureTime"/>
+                    <MDBInput label="Time" type="time" v-model="formData.signatureTime" readonly="true"/>
                 </div>
                 <div v-else>
                     <hr>
@@ -1034,7 +1039,8 @@
                             <MDBInput label="Age" type="number" v-model="formData.refusalAge"/>
                         </MDBCol>
                         <MDBCol>
-                            <MDBInput label="DoB" type="date" v-model="formData.refusalDoB"/>
+                            <MDBInput label="DoB" type="date" v-model="formData.refusalDoB" 
+                            :max="maxDate"/>
                         </MDBCol>
                     </MDBRow>
                     <br>
@@ -1065,7 +1071,8 @@
                         </MDBCol>
                         <MDBCol>
                             <MDBInput label="Date and Time" type="date" 
-                                v-model="formData.refusalDateTime" />
+                                v-model="formData.refusalDateTime" 
+                                :max="maxDate"/>
                         </MDBCol>
                     </MDBRow>
                 </div>
@@ -1152,7 +1159,7 @@
                         />
                     </MDBCol>
                 </MDBRow>
-                <MDBInput label="Time Endorsement" type="text" v-model="formData.timeEndorsement" />
+                <MDBInput label="Time Endorsement" type="time" v-model="formData.timeEndorsement" />
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="secondary" @click="() => {
@@ -1182,6 +1189,7 @@ export default{
             selectedHospital: [],
             toast: useToast(),
             modalTitle: "",
+            maxDate: new Date().toISOString().split("T")[0],
             formData: {
                 hospital: "",
                 withReferral: false,
@@ -1330,6 +1338,20 @@ export default{
             })
         },
         async SendReferral(){
+            if (this.formData.fname == "" || this.formData.lname == "" || 
+                this.formData.dispatchTime == "" || this.formData.enRoute == "" ||
+                this.formData.atTheScene == "" || this.formData.atTheFacility){
+                    this.toast.open({
+                        message: "Please fill up the Dispatch Time, En Route, At the Scene, At the Facility, Patient First Name, Patient Last Name",
+                        type: 'warning',
+                        position: 'top',
+                        duration: 3000,
+                        dismissible: true
+                    })
+
+                    return;
+                }
+
             if (this.selectedHospital?._id !== null){
                 this.formData.hospital = this.selectedHospital._id
             }

@@ -2,7 +2,7 @@
     <DashboardBreadcrumbs breadcrumbs="PCR REPORT MANAGEMENT" />
     <MDBContainer class="px-0">
         <div class="list-title-bg">
-            <div class="list-title">LIST OF REPORTS</div>
+            <div class="list-title">LIST OF PATIENT CARE REPORTS</div>
         </div>
         <div class="list-table">
             <MDBContainer class="px-0 mb-3 d-flex align-items-center justify-content-center">
@@ -84,7 +84,7 @@
                                             modalTitle = 'EDIT PCR'
                                             isView = false
                                             openPCR = true
-                                        }">Edit</MDBBtn>
+                                        }"><div v-if="isAdmin">Edit</div><div v-else>Receive</div></MDBBtn>
                                 </MDBCol>
                             </MDBRow>
                         </td>
@@ -109,54 +109,54 @@
                 label="ID Caller"
                 v-model="selectedPCR.idCaller"
                 wrapperClass="mb-4"
-                :readonly="isView"
+                :readonly="isAdmin ? isView ? true : false : true "
             />
                 <MDBRow>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                        type="time"
                             label="Dispatch Time"
                             v-model="selectedPCR.dispatchTime"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                        type="time"
                             label="En route"
                             v-model="selectedPCR.enRoute"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
                 <MDBRow>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                        type="time"
                             label="At the scene"
                             v-model="selectedPCR.atTheScene"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                        type="time"
                             label="Left the scene"
                             v-model="selectedPCR.leftTheScene"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                        type="time"
                             label="At the Facility"
                             v-model="selectedPCR.atTheFacility"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -165,7 +165,7 @@
                     label="Site of response"
                     v-model="selectedPCR.siteOfResponse"
                     wrapperClass="mb-4"
-                    :readonly="isView"
+                    :readonly="isAdmin ? isView ? true : false : true "
                 />
                 <hr>
                 <center>
@@ -179,7 +179,7 @@
                             label="First Name"
                             v-model="selectedPCR.fname"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -188,7 +188,7 @@
                             label="Middle Name"
                             v-model="selectedPCR.mname"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -197,7 +197,7 @@
                             label="Last Name"
                             v-model="selectedPCR.lname"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -208,7 +208,7 @@
                             label="Temperature"
                             v-model="selectedPCR.temperature"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -216,8 +216,9 @@
                             type="date"
                             label="Date of Birth"
                             v-model="selectedPCR.dob"
+                            :max="maxDate"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -226,7 +227,7 @@
                             label="Age"
                             v-model="selectedPCR.age"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -247,7 +248,7 @@
                     label="Contact Number"
                     v-model="selectedPCR.contactNumber"
                     wrapperClass="mb-4"
-                    :readonly="isView"
+                    :readonly="isAdmin ? isView ? true : false : true "
                 />
                 <hr>
                 <center>
@@ -261,7 +262,7 @@
                             label="Next of Kin Name"
                             v-model="selectedPCR.nextOfKinName"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -270,7 +271,7 @@
                             label="Contact Number"
                             v-model="selectedPCR.contactNumberKin"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -279,7 +280,7 @@
                             label="Temperature"
                             v-model="selectedPCR.temperatureKin"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -295,7 +296,7 @@
                             label="Lost of consciousness prior arrival"
                             v-model="selectedPCR.lostOfConsciousness"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -303,7 +304,7 @@
                             label="Considered manual head stabilisation"
                             v-model="selectedPCR.consideredManual"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -313,7 +314,7 @@
                     label="CC Chief Complaint"
                     v-model="selectedPCR.ccChiefComplaint"
                     wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                 />
                 <hr>
                 <center>
@@ -479,7 +480,7 @@
                 </MDBRow>
                 <MDBTextarea label="Radiation" rows="4" 
                     formText="Does it raidate to other areas?" v-model="selectedPCR.radiation"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                 <div class="d-flex flex-wrap my-3">
                     <div class="flex-grow-1 mx-1 mb-3">
                         <p style="margin-bottom: 0;">Severity:</p>
@@ -501,25 +502,25 @@
                 </div>
                 <MDBTextarea label="Time" rows="4" 
                 formText="Is it pain the same as it started or is it increased or decreased?" v-model="selectedPCR.time"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                 <br>
                 <MDBTextarea label="Signs and Symptoms" rows="3" wrapperClass="mb-4" v-model="selectedPCR.signSymptoms"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                 <MDBTextarea label="Age/Athlethecism/Allergies" rows="3" wrapperClass="mb-4"
                 v-model="selectedPCR.ageAthletecismAllergies" 
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                 <MDBTextarea label="Medication" rows="3" wrapperClass="mb-4" 
                 v-model="selectedPCR.medication"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                 <MDBTextarea label="Past History" rows="3" wrapperClass="mb-4"
                 v-model="selectedPCR.pastHistory"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                 <MDBTextarea label="Last oral intake" rows="3" wrapperClass="mb-4"
                 v-model="selectedPCR.lastOralIntake"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                 <MDBTextarea label="Events leading to the incident" rows="3" wrapperClass="mb-4"
                 v-model="selectedPCR.eventsLeadingToAccident"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                 <hr>
                 <center>
                     <strong>SECONDARY ASSESSMENT (IF APPLICABLE)</strong>
@@ -533,7 +534,7 @@
                             label="Deformity"
                             v-model="selectedPCR.deformity"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -541,7 +542,7 @@
                             label="Contusion"
                             v-model="selectedPCR.contusion"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -549,7 +550,7 @@
                             label="Bruise"
                             v-model="selectedPCR.bruise"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -557,7 +558,7 @@
                             label="Laceration"
                             v-model="selectedPCR.laceration"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -567,7 +568,7 @@
                             label="Abrasion"
                             v-model="selectedPCR.abrasion"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -575,7 +576,7 @@
                             label="Puncture"
                             v-model="selectedPCR.puncture"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -583,7 +584,7 @@
                             label="Tenderness"
                             v-model="selectedPCR.tenderness"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -591,7 +592,7 @@
                             label="Swelling"
                             v-model="selectedPCR.swelling"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -604,7 +605,7 @@
                             label="ETOH"
                             v-model="selectedPCR.etoh"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -612,7 +613,7 @@
                             label="Sub. Ab."
                             v-model="selectedPCR.subab"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -626,7 +627,7 @@
                             label="Burn %"
                             v-model="selectedPCR.burn"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -634,7 +635,7 @@
                             label="Superf."
                             v-model="selectedPCR.superf"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -642,7 +643,7 @@
                             label="Partial"
                             v-model="selectedPCR.partial"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -650,7 +651,7 @@
                             label="Full"
                             v-model="selectedPCR.full"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -663,7 +664,7 @@
                             label="Gravida"
                             v-model="selectedPCR.gravida"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -671,7 +672,7 @@
                             label="Para EDD"
                             v-model="selectedPCR.paraedd"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -679,7 +680,7 @@
                             label="True Labor"
                             v-model="selectedPCR.truelabor"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -687,7 +688,7 @@
                             label="< 60 sec"
                             v-model="selectedPCR.sec60"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -695,7 +696,7 @@
                             label="< 2 min"
                             v-model="selectedPCR.min2"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -708,7 +709,7 @@
                             label="Crackles"
                             v-model="selectedPCR.crackles"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -716,7 +717,7 @@
                             label="Wheezing"
                             v-model="selectedPCR.wheezing"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -724,7 +725,7 @@
                             label="Stridor"
                             v-model="selectedPCR.stridor"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -734,7 +735,7 @@
                             label="Rhonchi"
                             v-model="selectedPCR.rhonchi"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -742,7 +743,7 @@
                             label="Rales"
                             v-model="selectedPCR.rales"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -750,7 +751,7 @@
                             label="CTA"
                             v-model="selectedPCR.cta"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -767,11 +768,11 @@
                     <MDBRow>
                         <MDBCol>
                             <MDBInput
-                                type="text"
+                            type="time"
                                 label="Time"
                                 v-model="val.time"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                         <MDBCol>
@@ -780,7 +781,7 @@
                                 label="Blood Pressure"
                                 v-model="val.bloodPressure"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                         <MDBCol>
@@ -789,7 +790,7 @@
                                 label="Pulse Rate"
                                 v-model="val.pulseRate"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                     </MDBRow>
@@ -803,7 +804,7 @@
                                 label="SP o2"
                                 v-model="val.spo2"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                         <MDBCol>
@@ -815,7 +816,7 @@
                                         label="Entry #1"
                                         v-model="val.respiratoryQualityOne"
                                         wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                                     />
                                 </MDBCol>
                                 <MDBCol>
@@ -824,7 +825,7 @@
                                         label="Entry #2"
                                         v-model="val.respiratoryQualityTwo"
                                         wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                                     />
                                 </MDBCol>
                             </MDBRow>
@@ -836,7 +837,7 @@
                                 label="Glucose"
                                 v-model="val.glucose"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                     </MDBRow>
@@ -849,7 +850,7 @@
                                 label="CRT < 2 sec."
                                 v-model="val.crt2sec"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                         <MDBCol>
@@ -858,7 +859,7 @@
                                 label="Left Pupil"
                                 v-model="val.leftPupil"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                         <MDBCol>
@@ -867,7 +868,7 @@
                                 label="Right Pupil"
                                 v-model="val.rightPupil"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                     </MDBRow>
@@ -884,7 +885,7 @@
                             label="Open Airway"
                             v-model="selectedPCR.openAirway"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -892,7 +893,7 @@
                             label="Man. Clear."
                             v-model="selectedPCR.manClear"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -900,7 +901,7 @@
                             label="Suction"
                             v-model="selectedPCR.suction"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -908,7 +909,7 @@
                             label="o2 b L L L"
                             v-model="selectedPCR.o2blll"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -918,7 +919,7 @@
                             label="OPA"
                             v-model="selectedPCR.opa"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -926,7 +927,7 @@
                             label="NC"
                             v-model="selectedPCR.nc"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -934,7 +935,7 @@
                             label="Nebul"
                             v-model="selectedPCR.nebul"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -942,7 +943,7 @@
                             label="BVM"
                             v-model="selectedPCR.bvm"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -956,7 +957,7 @@
                             label="CPR"
                             v-model="selectedPCR.cpr"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -965,7 +966,7 @@
                             label="Start @"
                             v-model="selectedPCR.circulationStart"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -974,7 +975,7 @@
                             label="Cycles"
                             v-model="selectedPCR.circulationCycle"
                             wrapperClass="mb-4"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -988,7 +989,7 @@
                             label="C-Spine"
                             v-model="selectedPCR.cspine"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -996,7 +997,7 @@
                             label="Splint"
                             v-model="selectedPCR.splint"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -1010,7 +1011,7 @@
                             label="Cleaning"
                             v-model="selectedPCR.cleaning"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -1018,7 +1019,7 @@
                             label="Bandaging"
                             v-model="selectedPCR.bandaging"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -1026,7 +1027,7 @@
                             label="Occlusive Dressing"
                             v-model="selectedPCR.occlusiveDressing"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
@@ -1036,7 +1037,7 @@
                     label="Positioning Cold/Warm"
                     v-model="selectedPCR.positioningColdWarm"
                     wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                 />
                 <div v-if="selectedPCR.withReferral">
                     <hr>
@@ -1053,7 +1054,6 @@
                                 label="Receving Facility"
                                 v-model="selectedPCR.receivingFacility"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
                             />
                         </MDBCol>
                         <MDBCol>
@@ -1062,7 +1062,6 @@
                                 label="Receving Provider"
                                 v-model="selectedPCR.receivingProvider"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
                             />
                         </MDBCol>
                         <MDBCol>
@@ -1071,23 +1070,19 @@
                                 label="Position"
                                 v-model="selectedPCR.position"
                                 wrapperClass="mb-4"
-                            :readonly="isView"
                             />
                         </MDBCol>
                     </MDBRow>
                     <strong>SIGNATURE</strong>
                     <MDBTextarea label="Additional Information" rows="3" wrapperClass="mb-4"
-                    v-model="selectedPCR.signatureAdditionalInfo"
-                            :readonly="isView"/>
+                    v-model="selectedPCR.signatureAdditionalInfo"/>
                     <MDBCheckbox
                         label="By Checking this, You're agreeing to everything to the statement above"
                         v-model="selectedPCR.agreementPatient"
                         wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
                     />
                     <br>
-                    <MDBInput label="Time" type="text" v-model="selectedPCR.signatureTime"
-                            :readonly="isView"/>
+                    <MDBInput label="Time" type="time" v-model="selectedPCR.signatureTime"/>
                 </div>
                 <div v-else>
                     <hr>
@@ -1101,7 +1096,7 @@
                                 label="Evalutaion"
                                 v-model="selectedPCR.evaluation"
                                 wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                         <MDBCol>
@@ -1109,7 +1104,7 @@
                                 label="Treatment"
                                 v-model="selectedPCR.treatment"
                                 wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                         <MDBCol>
@@ -1117,27 +1112,27 @@
                                 label="Transport"
                                 v-model="selectedPCR.transport"
                                 wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
                         <MDBCol>
                             <MDBInput label="Patient's printed name" type="text" v-model="selectedPCR.refusalName"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                         </MDBCol>
                         <MDBCol>
                             <MDBInput label="Age" type="number" v-model="selectedPCR.refusalAge"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                         </MDBCol>
                         <MDBCol>
                             <MDBInput label="DoB" type="date" v-model="selectedPCR.refusalDoB"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true " :max="maxDate"/>
                         </MDBCol>
                     </MDBRow>
                     <br>
                     <MDBTextarea label="Patient's address" row="4" v-model="selectedPCR.refusaladdress"
-                            :readonly="isView" />
+                            :readonly="isAdmin ? isView ? true : false : true " />
                     <br>
                     <MDBRow>
                         <MDBCol>
@@ -1145,31 +1140,31 @@
                                 label="By checking this, the patient is agreeing with the form above"
                                 v-model="selectedPCR.refusalAgree"
                                 wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                             />
                         </MDBCol>
                         <MDBCol>
                             <MDBInput label="Witness Relationship (If applicable)" type="text"
                                 v-model="selectedPCR.refusalRelationship" 
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                         </MDBCol>
                         <MDBCol>
                             <MDBCheckbox 
                             label="By checking this, the witness is agreeing with that he/she witness the said events"
                             type="text" v-model="selectedPCR.refusalWitnessAgree"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                         </MDBCol>
                     </MDBRow>
                     <MDBRow>
                         <MDBCol>
                             <MDBInput label="Witness Printed Name" type="text"
                                 v-model="selectedPCR.refusalWitnessName" 
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                         </MDBCol>
                         <MDBCol>
                             <MDBInput label="Date and Time" type="date" 
                                 v-model="selectedPCR.refusalDateTime"
-                            :readonly="isView" />
+                            :readonly="isAdmin ? isView ? true : false : true " :max="maxDate"/>
                         </MDBCol>
                     </MDBRow>
                 </div>
@@ -1184,7 +1179,7 @@
                             label="Decomposition"
                             v-model="selectedPCR.decomposition"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -1192,7 +1187,7 @@
                             label="Rigor Mortis"
                             v-model="selectedPCR.rigormortis"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -1200,7 +1195,7 @@
                             label="Incineration"
                             v-model="selectedPCR.incineration"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -1208,7 +1203,7 @@
                             label="Decapitation"
                             v-model="selectedPCR.decapitation"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -1216,7 +1211,7 @@
                             label="Pooling"
                             v-model="selectedPCR.pooling"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                     <MDBCol>
@@ -1224,13 +1219,13 @@
                             label="Other injuries totally incompatible with life"
                             v-model="selectedPCR.otherInjuries"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
                 <MDBTextarea label="PLEASE SPECIFIY NATURE OF INJURIES" row="4" 
                     v-model="selectedPCR.natureOfInjuries"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                 <hr>
                 <center>
                     <strong>PROVIDER</strong>
@@ -1239,37 +1234,37 @@
                 <MDBRow>
                     <MDBCol>
                         <MDBInput label="EMR" type="text" v-model="selectedPCR.emr"
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="By Checking this, The provider is agreeing in EMR"
                             v-model="selectedPCR.emragree"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
                 <MDBRow>
                     <MDBCol>
                         <MDBInput label="Odometer Differencial" type="text" v-model="selectedPCR.odometerDifferencial"
-                            :readonly="isView" />
+                            :readonly="isAdmin ? isView ? true : false : true " />
                     </MDBCol>
                     <MDBCol>
                         <MDBInput label="EMR(TL)" type="text" v-model="selectedPCR.emrtl" 
-                            :readonly="isView"/>
+                            :readonly="isAdmin ? isView ? true : false : true "/>
                     </MDBCol>
                     <MDBCol>
                         <MDBCheckbox
                             label="By Checking this, The provider is agreeing in EMR(TL)"
                             v-model="selectedPCR.emrtlAgree"
                             wrapperClass="mb-3 mb-md-0"
-                            :readonly="isView"
+                            :readonly="isAdmin ? isView ? true : false : true "
                         />
                     </MDBCol>
                 </MDBRow>
-                <MDBInput label="Time Endorsement" type="text" v-model="selectedPCR.timeEndorsement" 
-                            :readonly="isView"/>
+                <MDBInput label="Time Endorsement" type="time" v-model="selectedPCR.timeEndorsement" 
+                            :readonly="isAdmin ? isView ? true : false : true "/>
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="secondary" @click="() => {
@@ -1292,13 +1287,17 @@ import { PCR } from '../../../modules/pcr'
 import {useToast} from 'vue-toast-notification';
 export default{
     name: 'PCRReport',
+    props: {
+        isAdmin: Boolean
+    },
     data() {
         return{
             toast: useToast(),
             openPCR: false,
             selectedPCR: [],
             modalTitle: "",
-            isView: false
+            isView: false,
+            maxDate: new Date().toISOString().split("T")[0]
         }
     },
     components: {
@@ -1321,6 +1320,37 @@ export default{
     },
     methods: {
         async UpdatePCR(){
+            if (!this.isAdmin){
+                if (this.selectedPCR.receivingFacility == "" || this.selectedPCR.receivingProvider == "" || 
+                this.selectedPCR.position == "" || this.selectedPCR.signatureAdditionalInfo == "" ||
+                this.selectedPCR.agreementPatient == false || this.selectedPCR.signatureTime == ""){
+                    this.toast.open({
+                        message: "Please fill up the RECEIVING FACILITY form",
+                        type: 'warning',
+                        position: 'top',
+                        duration: 3000,
+                        dismissible: true
+                    })
+
+                    return;
+                }
+            }
+            else{
+                if (this.selectedPCR.fname == "" || this.selectedPCR.lname == "" || 
+                this.selectedPCR.dispatchTime == "" || this.selectedPCR.enRoute == "" ||
+                this.selectedPCR.atTheScene == "" || this.selectedPCR.atTheFacility){
+                    this.toast.open({
+                        message: "Please fill up the Dispatch Time, En Route, At the Scene, At the Facility, Patient First Name, Patient Last Name",
+                        type: 'warning',
+                        position: 'top',
+                        duration: 3000,
+                        dismissible: true
+                    })
+
+                    return;
+                }
+            }
+
             await this.EditPCR(this.selectedPCR)
 
             if (this.pcrResponse.saveResponse === "success"){

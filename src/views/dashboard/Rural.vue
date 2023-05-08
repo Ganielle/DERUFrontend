@@ -19,7 +19,7 @@
                 @sideSubToggle="SideSubToggle"/>
             <MDBContainer fluid class="px-0 py-5 fill-space">
                 <div v-if="currentSideBar === 'pcr'">
-                    <PCRReport />
+                    <PCRReport :isAdmin="true" />
                 </div>
             </MDBContainer>
         </main>

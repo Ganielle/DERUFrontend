@@ -32,7 +32,7 @@
         <MDBTable hover responsive class="align-middle mb-0 bg-white text-center">
             <thead class="bg-dark">
                 <tr>
-                    <th scope="col" class="table-dark">VARIANT NAME</th>
+                    <th scope="col" class="table-dark">CAPABILITY NAME</th>
                     <th scope="col" class="table-dark">ACTION</th>
                 </tr>
             </thead>

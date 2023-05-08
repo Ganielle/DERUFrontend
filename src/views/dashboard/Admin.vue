@@ -46,7 +46,7 @@
                     <ReferralManage />
                 </div>
                 <div v-else-if="currentSideBar === 'pcr'">
-                    <PCRReport />
+                    <PCRReport :isAdmin="true"/>
                 </div>
                 <div v-else-if="currentSideBar === 'assistance'">
                     <MedicalAssistance />
