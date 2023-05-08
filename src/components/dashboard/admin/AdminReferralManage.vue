@@ -1340,7 +1340,10 @@ export default{
         async SendReferral(){
             if (this.formData.fname == "" || this.formData.lname == "" || 
                 this.formData.dispatchTime == "" || this.formData.enRoute == "" ||
-                this.formData.atTheScene == "" || this.formData.atTheFacility){
+                this.formData.atTheScene == "" || this.formData.atTheFacility == ""){
+                    console.log(this.formData.fname, this.formData.lname,
+                this.formData.dispatchTime,this.formData.enRoute,
+                this.formData.atTheScene, this.formData.atTheFacility)
                     this.toast.open({
                         message: "Please fill up the Dispatch Time, En Route, At the Scene, At the Facility, Patient First Name, Patient Last Name",
                         type: 'warning',
