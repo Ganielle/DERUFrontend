@@ -119,6 +119,7 @@
                             v-model="selectedPCR.dispatchTime"
                             wrapperClass="mb-4"
                             :readonly="isAdmin ? isView ? true : false : true "
+                            class="active"
                         />
                     </MDBCol>
                     <MDBCol>
@@ -128,6 +129,7 @@
                             v-model="selectedPCR.enRoute"
                             wrapperClass="mb-4"
                             :readonly="isAdmin ? isView ? true : false : true "
+                            class="active"
                         />
                     </MDBCol>
                 </MDBRow>
@@ -139,6 +141,7 @@
                             v-model="selectedPCR.atTheScene"
                             wrapperClass="mb-4"
                             :readonly="isAdmin ? isView ? true : false : true "
+                            class="active"
                         />
                     </MDBCol>
                     <MDBCol>
@@ -148,6 +151,7 @@
                             v-model="selectedPCR.leftTheScene"
                             wrapperClass="mb-4"
                             :readonly="isAdmin ? isView ? true : false : true "
+                            class="active"
                         />
                     </MDBCol>
                     <MDBCol>
@@ -157,6 +161,7 @@
                             v-model="selectedPCR.atTheFacility"
                             wrapperClass="mb-4"
                             :readonly="isAdmin ? isView ? true : false : true "
+                            class="active"
                         />
                     </MDBCol>
                 </MDBRow>
@@ -773,6 +778,7 @@
                                 v-model="val.time"
                                 wrapperClass="mb-4"
                             :readonly="isAdmin ? isView ? true : false : true "
+                            class="active"
                             />
                         </MDBCol>
                         <MDBCol>
@@ -1082,7 +1088,8 @@
                         wrapperClass="mb-3 mb-md-0"
                     />
                     <br>
-                    <MDBInput label="Time" type="time" v-model="selectedPCR.signatureTime"/>
+                    <MDBInput label="Time" type="time" v-model="selectedPCR.signatureTime"
+                            class="active"/>
                 </div>
                 <div v-else>
                     <hr>
@@ -1164,7 +1171,8 @@
                         <MDBCol>
                             <MDBInput label="Date and Time" type="date" 
                                 v-model="selectedPCR.refusalDateTime"
-                            :readonly="isAdmin ? isView ? true : false : true " :max="maxDate"/>
+                            :readonly="isAdmin ? isView ? true : false : true " :max="maxDate"
+                            class="active"/>
                         </MDBCol>
                     </MDBRow>
                 </div>
@@ -1264,7 +1272,8 @@
                     </MDBCol>
                 </MDBRow>
                 <MDBInput label="Time Endorsement" type="time" v-model="selectedPCR.timeEndorsement" 
-                            :readonly="isAdmin ? isView ? true : false : true "/>
+                            :readonly="isAdmin ? isView ? true : false : true "
+                            class="active"/>
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="secondary" @click="() => {

@@ -112,6 +112,7 @@
                             label="Dispatch Time"
                             v-model="formData.dispatchTime"
                             wrapperClass="mb-4"
+                            class="active"
                         />
                     </MDBCol>
                     <MDBCol>
@@ -120,6 +121,7 @@
                             label="En route"
                             v-model="formData.enRoute"
                             wrapperClass="mb-4"
+                            class="active"
                         />
                     </MDBCol>
                 </MDBRow>
@@ -130,6 +132,7 @@
                             label="At the scene"
                             v-model="formData.atTheScene"
                             wrapperClass="mb-4"
+                            class="active"
                         />
                     </MDBCol>
                     <MDBCol>
@@ -138,6 +141,7 @@
                             label="Left the scene"
                             v-model="formData.leftTheScene"
                             wrapperClass="mb-4"
+                            class="active"
                         />
                     </MDBCol>
                     <MDBCol>
@@ -146,6 +150,7 @@
                             label="At the Facility"
                             v-model="formData.atTheFacility"
                             wrapperClass="mb-4"
+                            class="active"
                         />
                     </MDBCol>
                 </MDBRow>
@@ -702,6 +707,7 @@
                                 label="Time"
                                 v-model="val.time"
                                 wrapperClass="mb-4"
+                            class="active"
                             />
                         </MDBCol>
                         <MDBCol>
@@ -1000,7 +1006,8 @@
                         disabled
                     />
                     <br>
-                    <MDBInput label="Time" type="time" v-model="formData.signatureTime" readonly="true"/>
+                    <MDBInput label="Time" type="time" v-model="formData.signatureTime" readonly="true"
+                            class="active"/>
                 </div>
                 <div v-else>
                     <hr>
@@ -1072,7 +1079,8 @@
                         <MDBCol>
                             <MDBInput label="Date and Time" type="date" 
                                 v-model="formData.refusalDateTime" 
-                                :max="maxDate"/>
+                                :max="maxDate"
+                            class="active"/>
                         </MDBCol>
                     </MDBRow>
                 </div>
@@ -1159,7 +1167,8 @@
                         />
                     </MDBCol>
                 </MDBRow>
-                <MDBInput label="Time Endorsement" type="time" v-model="formData.timeEndorsement" />
+                <MDBInput label="Time Endorsement" type="time" v-model="formData.timeEndorsement" 
+                            class="active"/>
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="secondary" @click="() => {

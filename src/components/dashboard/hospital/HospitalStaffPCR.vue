@@ -119,6 +119,7 @@
                             v-model="selectedPCR.dispatchTime"
                             wrapperClass="mb-4"
                             readonly="true"
+                            class="active"
                         />
                     </MDBCol>
                     <MDBCol>
@@ -128,6 +129,7 @@
                             v-model="selectedPCR.enRoute"
                             wrapperClass="mb-4"
                             readonly="true"
+                            class="active"
                         />
                     </MDBCol>
                 </MDBRow>
@@ -139,6 +141,7 @@
                             v-model="selectedPCR.atTheScene"
                             wrapperClass="mb-4"
                             readonly="true"
+                            class="active"
                         />
                     </MDBCol>
                     <MDBCol>
@@ -148,6 +151,7 @@
                             v-model="selectedPCR.leftTheScene"
                             wrapperClass="mb-4"
                             readonly="true"
+                            class="active"
                         />
                     </MDBCol>
                     <MDBCol>
@@ -157,6 +161,7 @@
                             v-model="selectedPCR.atTheFacility"
                             wrapperClass="mb-4"
                             readonly="true"
+                            class="active"
                         />
                     </MDBCol>
                 </MDBRow>
@@ -772,6 +777,7 @@
                                 v-model="val.time"
                                 wrapperClass="mb-4"
                             readonly="true"
+                            class="active"
                             />
                         </MDBCol>
                         <MDBCol>
@@ -1087,7 +1093,8 @@
                     />
                     <br>
                     <MDBInput label="Time" type="text" v-model="selectedPCR.signatureTime"
-                            :readonly="isView"/>
+                            :readonly="isView"
+                            class="active"/>
                 </div>
 
                 <div v-else>
@@ -1170,7 +1177,8 @@
                         <MDBCol>
                             <MDBInput label="Date and Time" type="date" 
                                 v-model="selectedPCR.refusalDateTime"
-                            readonly="true" />
+                            readonly="true" 
+                            class="active"/>
                         </MDBCol>
                     </MDBRow>
                 </div>
@@ -1271,7 +1279,8 @@
                     </MDBCol>
                 </MDBRow>
                 <MDBInput label="Time Endorsement" type="text" v-model="selectedPCR.timeEndorsement" 
-                            readonly="isView"/>
+                            readonly="isView"
+                            class="active"/>
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="secondary" @click="() => {
