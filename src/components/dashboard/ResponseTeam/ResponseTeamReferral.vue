@@ -108,7 +108,7 @@
                 <MDBRow>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="Dispatch Time"
                             v-model="formData.dispatchTime"
                             wrapperClass="mb-4"
@@ -117,7 +117,7 @@
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="En route"
                             v-model="formData.enRoute"
                             wrapperClass="mb-4"
@@ -128,7 +128,7 @@
                 <MDBRow>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="At the scene"
                             v-model="formData.atTheScene"
                             wrapperClass="mb-4"
@@ -137,7 +137,7 @@
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="Left the scene"
                             v-model="formData.leftTheScene"
                             wrapperClass="mb-4"
@@ -146,7 +146,7 @@
                     </MDBCol>
                     <MDBCol>
                         <MDBInput
-                            type="text"
+                            type="time"
                             label="At the Facility"
                             v-model="formData.atTheFacility"
                             wrapperClass="mb-4"
@@ -702,7 +702,7 @@
                     <MDBRow>
                         <MDBCol>
                             <MDBInput
-                                type="text"
+                            type="time"
                                 label="Time"
                                 v-model="val.time"
                                 wrapperClass="mb-4"
@@ -1001,8 +1001,9 @@
                         wrapperClass="mb-3 mb-md-0"
                     />
                     <br>
-                    <MDBInput label="Time" type="text" v-model="formData.signatureTime"
-                            class="active"/>
+                    <MDBInput label="Time" 
+                            type="time" v-model="formData.signatureTime"
+                            class="active" />
                 </div>
                 <div v-else>
                     <hr>
@@ -1160,7 +1161,8 @@
                         />
                     </MDBCol>
                 </MDBRow>
-                <MDBInput label="Time Endorsement" type="text" v-model="formData.timeEndorsement" 
+                <MDBInput label="Time Endorsement" 
+                            type="time" v-model="formData.timeEndorsement" 
                             class="active"/>
             </MDBModalBody>
             <MDBModalFooter>
