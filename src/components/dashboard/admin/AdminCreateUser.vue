@@ -13,14 +13,31 @@
                     v-model="username"
                     wrapperClass="mb-4"
                 />
-                <MDBInput
-                    type="password"
-                    label="Password"
-                    id="password"
-                    v-model="password"
-                    wrapperClass="mb-4"
-                />
-
+                <MDBRow >
+                    <MDBCol col="7">
+                        <MDBInput
+                            type="password"
+                            label="Password"
+                            id="password"
+                            v-model="password"
+                            wrapperClass="mb-4"
+                            disabled
+                        />
+                    </MDBCol>
+                    <MDBCol col="1">
+                        <MDBBtn color="warning" size="md"
+                            @click="CopyToClipboard"
+                            :disabled="password == '' ? true : false">
+                            <MDBIcon fas class="fa-clipboard-list" />
+                        </MDBBtn>
+                    </MDBCol>
+                    <MDBCol>
+                        <MDBBtn block color="primary" size="md" @click="GeneratePassword">
+                            Generate password
+                        </MDBBtn>
+                    </MDBCol>
+                </MDBRow>
+                <br/>
                 <MDBRow>
                     <MDBCol>
                         <MDBInput
@@ -78,7 +95,7 @@
 </template>
 
 <script>
-import { MDBContainer, MDBInput, MDBBtn, MDBRow, MDBCol, MDBSpinner } from 'mdb-vue-ui-kit';
+import { MDBContainer, MDBInput, MDBBtn, MDBRow, MDBCol, MDBSpinner, MDBIcon } from 'mdb-vue-ui-kit';
 import DashboardBreadcrumbs from '../DashboardBreadcrumbs.vue';
 import { Users } from '../../../modules/Users'
 import {useToast} from 'vue-toast-notification';
@@ -105,7 +122,8 @@ export default{
         MDBBtn,
         MDBRow,
         MDBCol,
-        MDBSpinner
+        MDBSpinner,
+        MDBIcon
     },
     methods: {
         async CreateHigherUser(){
@@ -160,6 +178,31 @@ export default{
                     dismissible: true
                 })
             }
+        },
+        CopyToClipboard(){
+            navigator.clipboard.writeText(this.password)
+            .then(() => {
+                this.toast.open({
+                    message: "password copied to clipboard!",
+                    type: 'success',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            })
+            .catch((error) => {
+                this.toast.open({
+                    message: "Error copying to clipboard: " + error,
+                    type: 'error',
+                    position: 'top',
+                    duration: 3000,
+                    dismissible: true
+                })
+            })
+        },
+        GeneratePassword(){
+            var randomstring = Math.random().toString(36).slice(-8)
+            this.password = randomstring
         }
     },  
     setup(){

@@ -1,13 +1,13 @@
 <template>
-    <DashboardBreadcrumbs breadcrumbs="HOSPITAL MANAGEMENT / HOSPITAL CAPABILITIES" />
+    <DashboardBreadcrumbs breadcrumbs="HOSPITAL MANAGEMENT / HOSPITAL SERVICES" />
     <MDBContainer class="px-0">
         <div class="list-title-bg">
-            <div class="list-title">HOSPITAL CAPABILITIES LIST</div>
+            <div class="list-title">HOSPITAL SERVICES LIST</div>
         </div>
         
         <div class="add-variant-btn">
             <MDBBtn @click="openModal = true" color="primary" class="mb-4">
-                ADD HOSPITAL CAPABILITIES
+                ADD HOSPITAL SERVICES
             </MDBBtn>
         </div>
 
@@ -32,7 +32,7 @@
         <MDBTable hover responsive class="align-middle mb-0 bg-white text-center">
             <thead class="bg-dark">
                 <tr>
-                    <th scope="col" class="table-dark">CAPABILITY NAME</th>
+                    <th scope="col" class="table-dark">SERVICES NAME</th>
                     <th scope="col" class="table-dark">ACTION</th>
                 </tr>
             </thead>
@@ -134,11 +134,11 @@
         centered
     >
         <MDBModalHeader>
-            <MDBModalTitle id="exampleModalScrollableTitle"> DELETE HOSPITAL CAPABILITIES </MDBModalTitle>
+            <MDBModalTitle id="exampleModalScrollableTitle"> DELETE HOSPITAL SERVICES </MDBModalTitle>
         </MDBModalHeader>
         <form  v-on:submit.prevent="onSubmit">
             <MDBModalBody> 
-                <strong>Are you sure you want to delete this hospital capabilities?</strong>
+                <strong>Are you sure you want to delete this hospital services?</strong>
             </MDBModalBody>
             <MDBModalFooter>
                 <MDBBtn color="secondary" @click="openDelete = false"> Close </MDBBtn>

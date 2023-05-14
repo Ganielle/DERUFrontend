@@ -13,7 +13,7 @@
           <img src="../../../assets/deru.png" alt="logo" class="img-fluid w-50" />
         </div>
         <div class="text-center pt-3">
-            <!-- <h4>ADMIN</h4> -->
+            <span class="role-text">{{ role }}</span>
         </div>
       </div>
       <div class="sidebar-body flex-grow-1">
@@ -72,7 +72,8 @@ export default{
     name: 'RuralNavi',
     props:{
       didToggle: Boolean,
-      subToggle: Boolean
+      subToggle: Boolean,
+      role: String
     },
     data() {
         return {
@@ -250,5 +251,7 @@ export default{
   z-index: -1;
 }
 
-
+.role-text{
+  width: 100%; font-size: 100%; color: #ffffff;
+}
 </style>

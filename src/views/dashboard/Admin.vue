@@ -16,7 +16,7 @@
         :style="{paddingLeft: innerWidth > 768 ? didToggle ? innerWidth < 768 ?
             '0rem' : '4.5rem' : '20rem' : '0rem'}">
             <AdminNavigation :didToggle="didToggle" :subToggle="subToggle" @sidebarToggle="ToggleSidebar" 
-                @sideSubToggle="SideSubToggle"/>
+                @sideSubToggle="SideSubToggle" role="ADMIN"/>
             <MDBContainer fluid class="px-0 py-5 fill-space">
                 <div v-if="currentSideBar === 'dashboard'">
                     <AdminDashboardMenu />
@@ -50,7 +50,9 @@
                 </div>
                 <div v-else-if="currentSideBar === 'assistance'">
                     <MedicalAssistance />
-                    
+                </div>
+                <div v-else-if="currentSideBar === 'settings'">
+                    <AdminSettings />
                 </div>
             </MDBContainer>
         </main>
@@ -72,6 +74,7 @@ import CreateUsers from '@/components/dashboard/admin/AdminCreateUser.vue';
 import ReferralManage from '@/components/dashboard/admin/AdminReferralManage.vue'
 import PCRReport from '@/components/dashboard/admin/AdminPCRList.vue'
 import MedicalAssistance from '@/components/dashboard/admin/AdminMedicalAssistance.vue'
+import AdminSettings from '@/components/dashboard/admin/AdminSettings.vue';
 
 export default{
     name: 'AdminDashboard',
@@ -96,6 +99,7 @@ export default{
         ReferralManage,
         PCRReport,
         MedicalAssistance,
+        AdminSettings,
         MDBContainer,
         MDBIcon
     },

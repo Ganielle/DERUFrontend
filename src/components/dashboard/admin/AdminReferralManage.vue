@@ -37,7 +37,7 @@
                         <th scope="col" class="table-dark">HOSPITAL NAME</th>
                         <th scope="col" class="table-dark">CONTACT NUMBER</th>
                         <th scope="col" class="table-dark">ADDRESS</th>
-                        <th scope="col" class="table-dark">HOSPITAL CAPABILITIES</th>
+                        <th scope="col" class="table-dark">HOSPITAL SERVICES</th>
                         <th scope="col" class="table-dark">REGULAR BEDS</th>
                         <th scope="col" class="table-dark">COVID BEDS</th>
                         <th scope="col"  class="table-dark">ACTION</th>
@@ -79,6 +79,7 @@
                             @click="() => {
                                 modalTitle = 'REFERRAL FORM'
                                 selectedHospital = dataVals
+                                formData.dispatchTime = '09:06'
                                 formData.withReferral = true
                                 openReferral = true
                             }">SEND REFERRAL</MDBBtn>
@@ -113,6 +114,7 @@
                             v-model="formData.dispatchTime"
                             wrapperClass="mb-4"
                             class="active"
+                            pattern="[0-9]{2}:[0-9]{2}"
                         />
                     </MDBCol>
                     <MDBCol>

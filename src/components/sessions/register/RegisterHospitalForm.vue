@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <br/>
-                    <h5 class="no-center-text">Select your hospital Capabilities: </h5>
+                    <h5 class="no-center-text">Select your hospital Services: </h5>
                     <br/>
                     <div v-for="items in Variance" :key="items._id">
                         <label class="container no-center-text">{{ items.display_name }}
@@ -92,7 +92,7 @@
                         </label>
                     </div>
                     <br/>
-                    <h5 class="no-center-text">Your Selected Hospital Capabilities: </h5>
+                    <h5 class="no-center-text">Your Selected Hospital Services: </h5>
                     <h6 class="no-center-text"> {{ CheckVariances.join(', ') }}</h6>
                     <MDBContainer>
                         <MDBRow>

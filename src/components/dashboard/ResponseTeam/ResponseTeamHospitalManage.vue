@@ -187,7 +187,7 @@
                         />
                     </MDBCol>
                 </MDBRow>
-                <strong>Hospital Capabilities:</strong>
+                <strong>Hospital Services:</strong>
                 <br>
                 <strong v-for="(variantsVal, index) in selectedHospital.variance" :key="variantsVal">
                     {{variantsVal.display_name}}

@@ -83,7 +83,7 @@
                     </div>
                 </div>
                 <br/>
-                <h5 class="no-center-text">Select your hospital Capabilities: </h5>
+                <h5 class="no-center-text">Select your hospital Services: </h5>
                 <br/>
                 <div v-for="items in variants.variance" :key="items">
                     <label class="container no-center-text">{{ items.display_name }}

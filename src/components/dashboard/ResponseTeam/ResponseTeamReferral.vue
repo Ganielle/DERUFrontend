@@ -37,7 +37,7 @@
                         <th scope="col" class="table-dark">HOSPITAL NAME</th>
                         <th scope="col" class="table-dark">CONTACT NUMBER</th>
                         <th scope="col" class="table-dark">ADDRESS</th>
-                        <th scope="col" class="table-dark">HOSPITAL CAPABILITIES</th>
+                        <th scope="col" class="table-dark">HOSPITAL SERVICES</th>
                         <th scope="col" class="table-dark">REGULAR BEDS</th>
                         <th scope="col" class="table-dark">COVID BEDS</th>
                         <th scope="col"  class="table-dark">ACTION</th>

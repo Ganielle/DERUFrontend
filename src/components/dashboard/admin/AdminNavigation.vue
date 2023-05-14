@@ -13,7 +13,7 @@
           <img src="../../../assets/deru.png" alt="logo" class="img-fluid w-50" />
         </div>
         <div class="text-center pt-3">
-            <!-- <h4>ADMIN</h4> -->
+            <span class="role-text">{{ role }}</span>
         </div>
       </div>
       <div class="sidebar-body flex-grow-1">
@@ -80,7 +80,7 @@
                         <MDBIcon fas icon="angle-right" size="sm" />
                     </div>
                     <div class="flex-grow-1 sidebar-sublink-header-title">
-                      Hospital Capabilities
+                      Hospital Services
                     </div>
                 </div>
             </div>
@@ -215,6 +215,19 @@
                     </div>
                 </div>
             </div>
+        <!--NAV ITEM-->
+        <div class="d-flex align-items-center py-2 mt-2 sidebar-link-header cursor-pointer"
+        :class="{'sidebar-active-link': currentSideBar == 'settings'}" 
+        @click="() => {
+          setSidebarLink('settings')
+        }">
+            <div class="sidebar-icon-container">
+                <MDBIcon fas icon="cogs" size="xl" title="PRC" />
+              </div>
+            <div class="flex-grow-1 sidebar-link-header-title">
+                SETTINGS
+            </div>
+        </div>
     </div>
       <div class="sidebar-footer py-3">
         <div
@@ -257,7 +270,8 @@ export default{
     name: 'AdminNavigation',
     props:{
       didToggle: Boolean,
-      subToggle: Boolean
+      subToggle: Boolean,
+      role: String
     },
     data() {
         return {
@@ -435,5 +449,7 @@ export default{
   z-index: -1;
 }
 
-
+.role-text{
+  width: 100%; font-size: 100%; color: #ffffff;
+}
 </style>

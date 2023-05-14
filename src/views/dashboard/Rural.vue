@@ -16,7 +16,7 @@
         :style="{paddingLeft: innerWidth > 768 ? didToggle ? innerWidth < 768 ?
             '0rem' : '4.5rem' : '20rem' : '0rem'}">
             <RuralNavi :didToggle="didToggle" :subToggle="subToggle" @sidebarToggle="ToggleSidebar" 
-                @sideSubToggle="SideSubToggle"/>
+                @sideSubToggle="SideSubToggle" role="RURAL HOSPITAL"/>
             <MDBContainer fluid class="px-0 py-5 fill-space">
                 <div v-if="currentSideBar === 'pcr'">
                     <PCRReport :isAdmin="true" />
