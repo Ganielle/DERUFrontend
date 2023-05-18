@@ -63,7 +63,8 @@ export const Users = () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                approve: true
+                approve: true,
+                active: true
             })
         }
         await fetch(process.env.VUE_APP_API_URL + "users/" + userId + "/approve", requestOptions)
@@ -88,6 +89,27 @@ export const Users = () => {
         response.value.declineResponse = "failed")
     }
 
+    const BanUnban = async(userId, isBan) => {
+        processing.value.approvingUser = true
+        const requestOptions = {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                active: isBan
+            })
+        }
+        await fetch(process.env.VUE_APP_API_URL + "users/" + userId + "/approve", requestOptions)
+        .then(res => res.json())
+        .then(data => {
+            response.value.approveResponse = data.message
+            processing.value.approvingUser = false
+        })
+        .catch(() => 
+        response.value.approveResponse = "failed")
+    }
+
     const HigherAccount = async(roleId, username, password, email, fname, mname, lname) =>{
         processing.value.createUser = true;
         const requestOptions = {
@@ -104,6 +126,7 @@ export const Users = () => {
                 mname: mname,
                 lname: lname,
                 approve: true,
+                active: true,
                 token: ""
             })
         }
@@ -125,6 +148,7 @@ export const Users = () => {
         GetUserList,
         ApproveUser,
         DeclineUser,
+        BanUnban,
         HigherAccount
     }
 }

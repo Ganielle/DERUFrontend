@@ -20,7 +20,7 @@
                             v-model="formData.landmarks"/>
                     </MDBCol>
                 </MDBRow>
-                <MDBInput type="text" label="Old Chat ID" wrapperClass="mb-4" 
+                <MDBInput type="text" label="Chat ID" wrapperClass="mb-4" 
                     v-model="roomID"/>
                 <br>
                 <MDBRow>

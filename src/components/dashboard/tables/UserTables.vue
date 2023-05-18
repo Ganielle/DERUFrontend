@@ -15,8 +15,8 @@
                         <th scope="col" class="table-dark text-center">ACCOUNT NAME</th>
                         <th scope="col" class="table-dark text-center">FIRST NAME</th>
                         <th scope="col" class="table-dark text-center">LAST NAME</th>
-                        <th v-if="!approve" scope="col" class="table-dark text-center">STATUS</th>
-                        <th v-if="!approve" scope="col"  class="table-dark text-center">ACTION</th>
+                        <th scope="col" class="table-dark text-center">STATUS</th>
+                        <th scope="col"  class="table-dark text-center">ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,10 +38,17 @@
                         <td class="text-center">
                             <strong>{{ dataValues.lname }}</strong>
                         </td>
+                        
+                        <!--STATUS SECTION-->
                         <td v-if="!approve" class="text-center">
                             <strong v-if="approve">APPROVED</strong>
                             <strong v-else>PENDING</strong>
                         </td>
+                        <td v-else-if="approve">
+                            <strong v-if="dataValues.active">ACTIVE</strong>
+                            <strong v-else>BANNED</strong>
+                        </td>
+                        <!--ACTION SECTION-->
                         <td v-if="!approve">
                             <MDBRow>
                                 <MDBCol class="py-1">
@@ -57,6 +64,20 @@
                                     }"> Decline </MDBBtn>
                                 </MDBCol>
                             </MDBRow>
+                        </td>
+                        <td v-else-if="approve">
+                            <MDBBtn v-if="dataValues.active" size="sm" class="action-btn" color="danger" 
+                            @click="() => {
+                                $emit('ban', dataValues)
+                            }">
+                                BAN USER
+                            </MDBBtn>
+                            <MDBBtn v-else size="sm" class="action-btn" color="success"
+                            @click="() => {
+                                $emit('unban', dataValues)
+                            }">
+                                UNBAN USER
+                            </MDBBtn>
                         </td>
                     </tr>
                 </tbody>
