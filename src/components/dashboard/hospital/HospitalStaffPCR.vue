@@ -53,7 +53,10 @@
                             <strong>{{ dataVal.fname }} {{ dataVal.lname }}</strong>
                         </td>
                         <td scope="row">
-                            <strong v-if="dataVal.atTheFacility !== ''">
+                            <strong v-if="dataVal.agreementPatient">
+                                Received
+                            </strong>
+                            <strong v-else-if="dataVal.atTheFacility !== ''">
                                 Arrived at the Facility
                             </strong>
                             <strong v-else-if="dataVal.leftTheScene !== ''">
@@ -84,7 +87,7 @@
                                             modalTitle = 'RECEIVE PCR'
                                             isView = false
                                             openPCR = true
-                                        }">Receive</MDBBtn>
+                                        }" :disabled="dataVal.agreementPatient">Receive</MDBBtn>
                                 </MDBCol>
                             </MDBRow>
                         </td>
@@ -1353,7 +1356,7 @@ export default{
 
             if (this.pcrResponse.saveResponse === "success"){
                 this.toast.open({
-                    message: "PCR Updated Successfully",
+                    message: "PCR Received Successfully",
                     type: 'success',
                     position: 'top',
                     duration: 3000,

@@ -53,7 +53,10 @@
                             <strong>{{ dataVal.fname }} {{ dataVal.lname }}</strong>
                         </td>
                         <td scope="row">
-                            <strong v-if="dataVal.atTheFacility !== ''">
+                            <strong v-if="dataVal.agreementPatient">
+                                Received
+                            </strong>
+                            <strong v-else-if="dataVal.atTheFacility !== ''">
                                 Arrived at the Facility
                             </strong>
                             <strong v-else-if="dataVal.leftTheScene !== ''">

@@ -3,7 +3,10 @@ import { ref } from 'vue'
 export const PCR = () => {
     const pcrValues = ref({
         pcrHistory: [],
-        totalPCR: 0
+        totalPCR: 0,
+        totalWithReferral: 0,
+        totalNoReferral: 0,
+        totalLostConsciousness: 0
     })
 
     const pcrProcessing = ref({
@@ -111,6 +114,27 @@ export const PCR = () => {
         })
     }
 
+    const CountReferral = async (referral) => {
+        await fetch(process.env.VUE_APP_API_URL + "pcr/withreferral?withReferral=" + referral)
+        .then(res => res.json())
+        .then(data => {
+            if (referral){
+                pcrValues.value.totalWithReferral = data.data
+            }
+            else{
+                pcrValues.value.totalNoReferral = data.data
+            }
+        })
+    }
+
+    const CountLostConsciousness= async (referral) => {
+        await fetch(process.env.VUE_APP_API_URL + "pcr/lostconsciousness?lostOfConsciousness=" + referral)
+        .then(res => res.json())
+        .then(data => {
+            pcrValues.value.totalLostConsciousness = data.data
+        })
+    }
+
     return {
         pcrProcessing,
         pcrPagination,
@@ -120,6 +144,8 @@ export const PCR = () => {
         GetPCR,
         EditPCR,
         GetPCRCount,
-        GetSelfPCR
+        GetSelfPCR,
+        CountReferral,
+        CountLostConsciousness
     }
 }
